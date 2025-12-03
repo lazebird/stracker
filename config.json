@@ -1,0 +1,12 @@
+{
+    "sites": [
+        {
+            "name": "XWF8188/LunaTV",
+            "url": "https://github.com/XWF8188/LunaTV"
+        },
+        {
+            "name": "lampon/omnibox",
+            "url": "https://hub.docker.com/r/lampon/omnibox/tags"
+        }
+    ]
+}
