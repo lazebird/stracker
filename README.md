@@ -10,4 +10,10 @@
 - 采用vue+vite+typescript开发，pnpm管理
 
 # TODO
+- [ ] 项目框架搭建
+- [ ] 基于github/docker等网站的API接口或者cURL方式，实现数据获取接口
+- [ ] 基于config.json中的sites数据，识别网站类型，调用对应数据获取接口，生成网站跟踪数据表
+- [ ] 基于github pages将数据表发布到静态页面
+- [ ] 实现workflow脚本，每天运行网站数据更新
+
 
