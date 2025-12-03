@@ -2,11 +2,53 @@
     "sites": [
         {
             "name": "XWF8188/LunaTV",
-            "url": "https://github.com/XWF8188/LunaTV"
+            "url": "https://github.com/XWF8188/LunaTV",
+            "desc": "LunaTV Enhanced Edition"
+        },
+        {
+            "name": "Decohererk/DecoTV",
+            "url": "https://github.com/Decohererk/DecoTV",
+            "desc": "原KatelyaTV"
+        },
+        {
+            "name": "hsq1820/DanmuTV",
+            "url": "https://github.com/hsq1820/DanmuTV",
+            "desc": "MoonTV二开，electron APP"
+        },
+        {
+            "name": "djteang/OrangeTV",
+            "url": "https://github.com/djteang/OrangeTV",
+            "desc": "源自MoonTV，issue可用"
         },
         {
             "name": "lampon/omnibox",
-            "url": "https://hub.docker.com/r/lampon/omnibox/tags"
+            "url": "https://hub.docker.com/r/lampon/omnibox/tags",
+            "desc": "未开源 号称强聚合"
+        },
+        {
+            "name": "Ouonnki/OuonnkiTV",
+            "url": "https://github.com/Ouonnki/OuonnkiTV",
+            "desc": "基于LibreTV修改"
+        },
+        {
+            "name": "fxzer/nova-tv",
+            "url": "https://github.com/fxzer/nova-tv",
+            "desc": "基于 MoonTV 修改"
+        },
+        {
+            "name": "Stardm0/MoonTV",
+            "url": "https://github.com/Stardm0/MoonTV",
+            "desc": "基于MoonTV 2.0.1开始自行维护更新"
+        },
+        {
+            "name": "programClown/LunaTV",
+            "url": "https://github.com/programClown/LunaTV",
+            "desc": "win app版"
+        },
+        {
+            "name": "sdlw7757/KatelyaTV-Portable-Edition",
+            "url": "https://github.com/sdlw7757/KatelyaTV-Portable-Edition",
+            "desc": "基于本地运行"
         }
     ]
 }
