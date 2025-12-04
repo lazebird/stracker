@@ -9,7 +9,13 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
-  base: './',
+  base: '/stracker/',
+  server: {
+    // 确保 public 目录的文件能被正确访问
+    fs: {
+      allow: ['..']
+    }
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets'

@@ -316,11 +316,19 @@ const toggleSort = (field: 'codeUpdateTime' | 'versionUpdateTime' | 'containerUp
 
 const loadData = async () => {
   try {
-    const response = await fetch('/stracker/data/sites.json')
+    const url = '/stracker/data/sites.json'
+    console.log('正在请求数据文件:', url)
+    const response = await fetch(url)
+    console.log('响应状态:', response.status, response.statusText)
     if (!response.ok) {
-      throw new Error('加载数据失败')
+      throw new Error(`HTTP错误: ${response.status}`)
     }
-    const data = await response.json()
+    const contentType = response.headers.get('content-type')
+    console.log('Content-Type:', contentType)
+    const text = await response.text()
+    console.log('原始响应内容:', text.substring(0, 200))
+    const data = JSON.parse(text)
+    console.log('数据加载成功:', data)
     
     // 读取metadata中的生成时间
     if (data.metadata && data.metadata.generatedAt) {
@@ -331,6 +339,7 @@ const loadData = async () => {
     }
     
     const sitesData = data.sites || data
+    console.log('准备处理的站点数据:', sitesData)
     
     // 检查是否有历史快照
     const snapshot = loadSnapshot()
@@ -338,8 +347,10 @@ const loadData = async () => {
       console.log('发现历史快照:', new Date(snapshot.timestamp).toLocaleString('zh-CN'))
       sites.value = compareWithSnapshot(sitesData, snapshot.sites)
     } else {
+      console.log('无历史快照，直接使用当前数据')
       sites.value = sitesData
     }
+    console.log('数据加载完成，站点数量:', sites.value.length)
   } catch (err) {
     error.value = '加载网站数据失败，请检查数据文件是否存在'
     console.error('加载数据失败:', err)
