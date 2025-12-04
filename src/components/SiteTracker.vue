@@ -22,9 +22,9 @@
         <div class="modal-body">
           <div v-if="snapshotData" class="snapshot-info">
             <p><strong>记录时间：</strong>{{ formatTime(snapshotData.timestamp) }}</p>
-            <p><strong>记录站点数：</strong>{{ snapshotData.sites.length }} 个</p>
+            <p><strong>记录站点数：</strong>{{ snapshotData.sites?.length || 0 }} 个</p>
           </div>
-          <table v-if="snapshotData" class="snapshot-table">
+          <table v-if="snapshotData && snapshotData.sites" class="snapshot-table">
             <thead>
               <tr>
                 <th>网站名称</th>
@@ -38,7 +38,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="site in snapshotData.sites" :key="site.name">
+              <tr v-for="site in (snapshotData.sites || [])" :key="site.name">
                 <td>{{ site.name }}</td>
                 <td>{{ site.desc || '-' }}</td>
                 <td>{{ site.lastCommitTime ? formatTime(site.lastCommitTime) : '-' }}</td>
@@ -71,9 +71,9 @@
         <div class="modal-body">
           <div v-if="snapshotData" class="snapshot-info">
             <p><strong>记录时间：</strong>{{ formatTime(snapshotData.timestamp) }}</p>
-            <p><strong>记录站点数：</strong>{{ snapshotData.sites.length }} 个</p>
+            <p><strong>记录站点数：</strong>{{ snapshotData.sites?.length || 0 }} 个</p>
           </div>
-          <table v-if="snapshotData" class="snapshot-table">
+          <table v-if="snapshotData && snapshotData.sites" class="snapshot-table">
             <thead>
               <tr>
                 <th>网站名称</th>
@@ -87,7 +87,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="site in snapshotData.sites" :key="site.name">
+              <tr v-for="site in (snapshotData.sites || [])" :key="site.name">
                 <td>{{ site.name }}</td>
                 <td>{{ site.desc || '-' }}</td>
                 <td>{{ site.lastCommitTime ? formatTime(site.lastCommitTime) : '-' }}</td>
@@ -341,19 +341,25 @@ const loadData = async () => {
     const sitesData = data.sites || data
     console.log('准备处理的站点数据:', sitesData)
     
+    // 确保 sitesData 是数组
+    if (!Array.isArray(sitesData)) {
+      throw new Error('数据格式错误: sites 不是数组')
+    }
+    
     // 检查是否有历史快照
     const snapshot = loadSnapshot()
-    if (snapshot) {
+    if (snapshot && Array.isArray(snapshot.sites)) {
       console.log('发现历史快照:', new Date(snapshot.timestamp).toLocaleString('zh-CN'))
       sites.value = compareWithSnapshot(sitesData, snapshot.sites)
     } else {
       console.log('无历史快照，直接使用当前数据')
       sites.value = sitesData
     }
-    console.log('数据加载完成，站点数量:', sites.value.length)
+    console.log('数据加载完成，站点数量:', sites.value?.length || 0)
   } catch (err) {
     error.value = '加载网站数据失败，请检查数据文件是否存在'
     console.error('加载数据失败:', err)
+    sites.value = [] // 确保 sites 是数组
   }
 }
 
@@ -361,6 +367,7 @@ const loadData = async () => {
   try {
     const snapshot = {
       timestamp: new Date().toISOString(),
+      sites: sites.value || []
     }
     localStorage.setItem('siteSnapshot', JSON.stringify(snapshot))
     alert('状态已保存到本地！')
@@ -422,7 +429,13 @@ const loadSnapshot = (): { timestamp: string; sites: SiteStatusWithSnapshot[] } 
   try {
     const saved = localStorage.getItem('siteSnapshot')
     if (!saved) return null
-    return JSON.parse(saved)
+    const parsed = JSON.parse(saved)
+    // 验证数据结构
+    if (!parsed || !Array.isArray(parsed.sites)) {
+      console.error('历史状态数据格式错误:', parsed)
+      return null
+    }
+    return parsed
   } catch (err) {
     console.error('加载历史状态失败:', err)
     return null
@@ -430,6 +443,11 @@ const loadSnapshot = (): { timestamp: string; sites: SiteStatusWithSnapshot[] } 
 }
 
 const compareWithSnapshot = (currentSites: SiteStatus[], snapshotSites: SiteStatusWithSnapshot[]) => {
+  if (!Array.isArray(snapshotSites)) {
+    console.error('compareWithSnapshot: snapshotSites 不是数组', snapshotSites)
+    return currentSites.map(site => ({ ...site, isNew: true }))
+  }
+  
   const snapshotMap = new Map(snapshotSites.map(site => [site.name, site]))
   
   return currentSites.map(site => {

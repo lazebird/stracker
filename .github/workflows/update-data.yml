@@ -1,6 +1,9 @@
 name: 更新网站数据
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     # 每天北京时间上午9点 (UTC+1)
     - cron: '0 1 * * *'
