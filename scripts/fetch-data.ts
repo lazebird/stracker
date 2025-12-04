@@ -1,5 +1,5 @@
-import { writeFileSync, readFileSync } from "fs";
-import { join } from "path";
+import { writeFileSync, readFileSync, mkdirSync } from "fs";
+import { join, dirname } from "path";
 import { ApiService } from "../src/services/api";
 
 interface Config {
@@ -65,6 +65,9 @@ async function fetchSiteData() {
       },
       sites: siteStatuses
     };
+    
+    // Ensure the directory exists before writing the file
+    mkdirSync(dirname(outputPath), { recursive: true });
     writeFileSync(outputPath, JSON.stringify(outputData, null, 2));
 
     console.log(`\n📊 数据已保存到: ${outputPath}`);
