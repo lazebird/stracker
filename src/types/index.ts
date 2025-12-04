@@ -28,11 +28,13 @@ export interface SiteStatus {
 }
 
 export interface GitHubRepo {
-  id: number
+  id?: number
   name: string
   full_name: string
-  pushed_at: string
-  updated_at: string
+  html_url?: string
+  pushed_at?: string
+  updated_at?: string
+  default_branch?: string
 }
 
 export interface GitHubRelease {

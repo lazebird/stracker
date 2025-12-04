@@ -83,7 +83,6 @@ pnpm install
 
 支持的URL格式：
 - GitHub项目: `https://github.com/owner/repo`
-- GitHub Docker镜像: `https://github.com/owner/repo/pkgs/container/package-name`
 - Docker Hub镜像: `https://hub.docker.com/r/owner/repo/tags`
 
 ### 3. 获取数据
