@@ -316,7 +316,7 @@ const toggleSort = (field: 'codeUpdateTime' | 'versionUpdateTime' | 'containerUp
 
 const loadData = async () => {
   try {
-    const response = await fetch('/data/sites.json')
+    const response = await fetch('/stracker/data/sites.json')
     if (!response.ok) {
       throw new Error('加载数据失败')
     }
