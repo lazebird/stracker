@@ -55,7 +55,7 @@ async function fetchSiteData() {
       }
     }
 
-    const outputPath = join(process.cwd(), "src/data/sites.json");
+    const outputPath = join(process.cwd(), "public/data/sites.json");
     const outputData = {
       metadata: {
         generatedAt: new Date().toISOString(),

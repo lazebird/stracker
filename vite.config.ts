@@ -9,7 +9,7 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
-  base: '/site_sub/',
+  base: './',
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
