@@ -156,11 +156,12 @@ export class ApiService {
   static async extractPackagesFromRepoPage(html: string, repoPath: string): Promise<string[]> {
     try {
       const packages: string[] = []
+      const [owner, repo] = repoPath.split('/')
       
       // 方法1: 直接请求packages_list接口
       const packagesListMatch = html.match(/src="\/([^\/]+\/[^\/]+)\/packages_list[^"]*"/)
       if (packagesListMatch) {
-        const packagesListUrl = `https://github.com/${packagesListMatch[1]}/packages_list?current_repository=${repoPath.split('/')[1]}`
+        const packagesListUrl = `https://github.com/${packagesListMatch[1]}/packages_list?current_repository=${repo}`
         console.log(`🎯 找到packages_list接口: ${packagesListUrl}`)
         
         try {
@@ -212,6 +213,55 @@ export class ApiService {
       if (countMatches.length > 0) {
         const count = parseInt(countMatches[0][1])
         console.log(`📦 页面显示有 ${count} 个packages`)
+      }
+      
+      // 方法4: 从packages标签页链接中提取
+      if (packages.length === 0) {
+        const packagesTabRegex = /href="\/([^\/]+\/[^\/]+)\/pkgs\/container\/([^"\s\/]+)"/g
+        const packagesTabMatches = [...html.matchAll(packagesTabRegex)]
+        
+        for (const match of packagesTabMatches) {
+          const packageName = match[2]
+          if (packageName && !packages.includes(packageName)) {
+            packages.push(packageName)
+            console.log(`🎯 从packages标签页链接找到package: ${packageName}`)
+          }
+        }
+      }
+      
+      // 方法5: 从GitHub Container Registry链接中提取
+      if (packages.length === 0) {
+        const containerLinkRegex = /pkgs\.container\.dev\/ghcr\.io\/[^\/]+\/([^"\s\/]+)/g
+        const containerMatches = [...html.matchAll(containerLinkRegex)]
+        
+        for (const match of containerMatches) {
+          const packageName = match[1]
+          if (packageName && !packages.includes(packageName)) {
+            packages.push(packageName)
+            console.log(`🎯 从Container Registry链接找到package: ${packageName}`)
+          }
+        }
+      }
+      
+      // 方法6: 从README或页面文本中提取可能的package名称（基于仓库名变体）
+      if (packages.length === 0) {
+        const repoLower = repo.toLowerCase()
+        const possiblePackageNames = [
+          repoLower,
+          repoLower.replace(/-/g, ''),
+          repoLower.replace(/_/g, ''),
+          repoLower.replace(/[^a-z0-9]/g, ''),
+          repoLower.split('-')[0],
+          repoLower.replace(/-(tv|app|image|container|docker)$/i, '')
+        ].filter((name, index, arr) => arr.indexOf(name) === index)
+        
+        // 检查页面中是否包含这些可能的package名称
+        for (const pkgName of possiblePackageNames) {
+          if (html.includes(pkgName) && !packages.includes(pkgName)) {
+            packages.push(pkgName)
+            console.log(`🎯 从页面文本推断package: ${pkgName}`)
+          }
+        }
       }
       
       return packages
@@ -540,19 +590,28 @@ export class ApiService {
     }
   }
 
-  static async getGitHubPackages(repoPath: string): Promise<GitHubPackage[]> {
+  static async getGitHubPackages(repoPath: string, knownPackages?: string[]): Promise<GitHubPackage[]> {
     try {
       const [owner, repo] = repoPath.split('/')
       const repoName = repo.toLowerCase()
       
-      // 首先尝试直接访问可能的package名称
-      const possibleNames = [
+      // 构建要尝试的package名称列表，优先使用已知的package名称
+      const possibleNames: string[] = []
+      
+      // 如果提供了已知的package名称，优先尝试这些
+      if (knownPackages && knownPackages.length > 0) {
+        possibleNames.push(...knownPackages)
+        console.log(`🎯 使用从主页面提取的packages: ${knownPackages.join(', ')}`)
+      }
+      
+      // 添加基于仓库名的可能package名称
+      possibleNames.push(
         repoName,
         repoName.replace(/tv$/i, 'tv'),
         repoName.replace(/-tv$/i, 'tv'),
         repoName.toLowerCase(),
         repoName.replace(/[^a-z0-9]/g, '').toLowerCase()
-      ]
+      )
       
       // 去重
       const uniqueNames = [...new Set(possibleNames)]
@@ -828,16 +887,16 @@ export class ApiService {
             }
           }
           
-          // 如果主页面提取的package也失败，尝试常规方式
+          // 如果主页面提取的package也失败，尝试常规方式（带上已知的package名称）
           if (!latestPackage) {
-            const packages = await this.getGitHubPackages(path)
+            const packages = await this.getGitHubPackages(path, repoPackages)
             latestPackage = packages.length > 0 ? packages[0] : null
           }
           
-          // 如果网页抓取的版本号为undefined，尝试API方式重新获取
+          // 如果网页抓取的版本号为undefined，尝试API方式重新获取（带上已知的package名称）
           if (latestPackage && !latestPackage.latest_version) {
             console.log(`⚠️  网页抓取的版本号为undefined，尝试API方式重新获取...`)
-            const apiPackages = await this.getGitHubPackages(path)
+            const apiPackages = await this.getGitHubPackages(path, repoPackages)
             if (apiPackages.length > 0 && apiPackages[0].latest_version) {
               console.log(`✅ API方式成功获取版本号: ${apiPackages[0].latest_version}`)
               latestPackage = apiPackages[0]
