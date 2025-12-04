@@ -741,6 +741,18 @@ export class ApiService {
             latestPackage = packages.length > 0 ? packages[0] : null
           }
           
+          // 如果网页抓取的版本号为undefined，尝试API方式重新获取
+          if (latestPackage && !latestPackage.latest_version) {
+            console.log(`⚠️  网页抓取的版本号为undefined，尝试API方式重新获取...`)
+            const apiPackages = await this.getGitHubPackages(path)
+            if (apiPackages.length > 0 && apiPackages[0].latest_version) {
+              console.log(`✅ API方式成功获取版本号: ${apiPackages[0].latest_version}`)
+              latestPackage = apiPackages[0]
+            } else {
+              console.log(`❌ API方式也无法获取版本号`)
+            }
+          }
+          
           if (latestPackage) {
             console.log(`✅ 最终获取到package: ${latestPackage.name}, 版本: ${latestPackage.latest_version}`)
           } else {
@@ -756,7 +768,7 @@ export class ApiService {
             latestVersion: latestRelease?.tag_name,
             // 只有存在latestRelease时才设置lastUpdateTime
             lastUpdateTime: latestRelease?.published_at || undefined,
-            packageVersion: latestPackage?.latest_version || undefined,
+            packageVersion: latestPackage?.latest_version, // 保持原始值，不敷衍
             packageUpdateTime: latestPackage?.updated_at || undefined,
             status: 'success'
           }
