@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-04T09:41:20.075Z",
+    "generatedAt": "2025-12-04T09:52:31.635Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -26,6 +26,7 @@
       "lastCommitTime": "2025-11-29T11:48:57Z",
       "latestVersion": "v0.7.0",
       "lastUpdateTime": "2025-11-26T04:20:24Z",
+      "packageVersion": "v0.7.0",
       "packageUpdateTime": "2025-11-29T11:51:44Z",
       "status": "success"
     },
