@@ -408,10 +408,10 @@ export class ApiService {
         console.log(`🎯 从仓库路径提取package名称: ${name}`)
       }
 
-      // 查找最新版本 - 尝试多种策略
+      // 查找最新版本 - 尝试多种策略（增强版）
       let latestVersion: string | null = null
       
-      // 策略1: 从docker pull命令中提取版本
+      // 策略1: 从docker pull命令中提取版本（增强）
       const dockerPullRegex = /docker pull ghcr\.io\/[^\/]+\/[^:]+:([^\s\"@]+)/
       const dockerPullMatch = html.match(dockerPullRegex)
       if (dockerPullMatch) {
@@ -419,23 +419,43 @@ export class ApiService {
         console.log(`🎯 docker pull模式找到版本: ${latestVersion}`)
       }
       
-      // 策略2: 从版本链接中提取
+      // 策略2: 从版本链接中提取（增强）
       if (!latestVersion) {
-        const versionRegex = /href="\/[^\/]+\/pkgs\/container\/[^\/]+\/(\d+[^"]*)"/
-        const versionMatch = html.match(versionRegex)
-        if (versionMatch) {
-          latestVersion = versionMatch[1]
-          console.log(`🎯 版本链接模式找到版本: ${latestVersion}`)
+        const versionRegex = /href="\/[^\/]+\/pkgs\/container\/[^\/]+\/(\d+[^"]*)"/g
+        const versionMatches = [...html.matchAll(versionRegex)]
+        if (versionMatches.length > 0) {
+          latestVersion = versionMatches[0][1]
+          console.log(`🎯 版本链接模式找到版本: ${latestVersion} (共找到 ${versionMatches.length} 个版本链接)`)
         }
       }
       
-      // 策略3: 从版本文本中提取
+      // 策略3: 从版本文本中提取（增强）
       if (!latestVersion) {
-        const versionTextRegex = /<[^>]*>(\d+\.\d+\.\d+[^<]*)</
-        const versionTextMatch = html.match(versionTextRegex)
-        if (versionTextMatch) {
-          latestVersion = versionTextMatch[1]
-          console.log(`🎯 版本文本模式找到版本: ${latestVersion}`)
+        const versionTextRegex = /\b(v?\d+\.\d+\.\d+[a-zA-Z0-9\-\.]*)\b/g
+        const versionMatches = [...html.matchAll(versionTextRegex)]
+        if (versionMatches.length > 0) {
+          latestVersion = versionMatches[0][1]
+          console.log(`🎯 版本文本模式找到版本: ${latestVersion} (共找到 ${versionMatches.length} 个版本)`)
+        }
+      }
+      
+      // 策略4: 从GitHub Container Registry URL中提取
+      if (!latestVersion) {
+        const containerUrlRegex = /ghcr\.io\/[^\/]+\/[^:]+:([^\s\"@]+)/g
+        const containerMatches = [...html.matchAll(containerUrlRegex)]
+        if (containerMatches.length > 0) {
+          latestVersion = containerMatches[0][1]
+          console.log(`🎯 Container URL模式找到版本: ${latestVersion}`)
+        }
+      }
+      
+      // 策略5: 从页面标题或h2/h3中提取版本信息
+      if (!latestVersion) {
+        const headingVersionRegex = /<(h2|h3|div)[^>]*>\s*(v?\d+\.\d+\.\d+[a-zA-Z0-9\-\.]*)\s*<\/(h2|h3|div)>/i
+        const headingMatch = html.match(headingVersionRegex)
+        if (headingMatch) {
+          latestVersion = headingMatch[2]
+          console.log(`🎯 页面标题模式找到版本: ${latestVersion}`)
         }
       }
 
@@ -452,20 +472,20 @@ export class ApiService {
       
       // 策略2: 从relative-time标签中提取
       if (!updateTime) {
-        const timeRegex = /relative-time[^>]*datetime="([^"]*)"/
-        const timeMatch = html.match(timeRegex)
-        if (timeMatch) {
-          updateTime = timeMatch[1]
-          console.log(`🎯 relative-time模式找到时间: ${updateTime}`)
+        const timeRegex = /relative-time[^>]*datetime="([^"]*)"/g
+        const timeMatches = [...html.matchAll(timeRegex)]
+        if (timeMatches.length > 0) {
+          updateTime = timeMatches[0][1]
+          console.log(`🎯 relative-time模式找到时间: ${updateTime} (共找到 ${timeMatches.length} 个时间标签)`)
         }
       }
       
       // 策略3: 从time标签中提取
       if (!updateTime) {
-        const timeTagRegex = /<time[^>]*datetime="([^"]*)"/
-        const timeTagMatch = html.match(timeTagRegex)
-        if (timeTagMatch) {
-          updateTime = timeTagMatch[1]
+        const timeTagRegex = /<time[^>]*datetime="([^"]*)"/g
+        const timeTagMatches = [...html.matchAll(timeTagRegex)]
+        if (timeTagMatches.length > 0) {
+          updateTime = timeTagMatches[0][1]
           console.log(`🎯 time标签模式找到时间: ${updateTime}`)
         }
       }
