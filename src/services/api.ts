@@ -31,9 +31,28 @@ export class ApiService {
         })
       ])
 
+      const repo = repoResponse.data
+      const latestRelease = releasesResponse.data.length > 0 ? releasesResponse.data[0] : null
+      
+      // 尝试从网页抓取packages信息（即使API成功，也可能需要packages信息）
+      try {
+        const webData = await this.getGitHubRepoInfoWeb(repoPath)
+        if (webData.packages && webData.packages.length > 0) {
+          console.log(`✅ API成功，同时从网页提取到 ${webData.packages.length} 个packages:`, webData.packages)
+          return {
+            repo,
+            latestRelease,
+            packages: webData.packages
+          }
+        }
+      } catch (webError) {
+        // 网页抓取失败不影响主流程
+        console.log(`⚠️  API成功但网页抓取packages失败: ${repoPath}`)
+      }
+      
       return {
-        repo: repoResponse.data,
-        latestRelease: releasesResponse.data.length > 0 ? releasesResponse.data[0] : null
+        repo,
+        latestRelease
       }
     } catch (error) {
       console.log(`❌ GitHub API访问失败，尝试公开API: ${repoPath}`)
@@ -45,10 +64,28 @@ export class ApiService {
           })
         ])
 
+        const repo = publicRepoResponse.data
+        const latestRelease = publicReleasesResponse.data.length > 0 ? publicReleasesResponse.data[0] : null
+        
+        // 尝试从网页抓取packages信息
+        try {
+          const webData = await this.getGitHubRepoInfoWeb(repoPath)
+          if (webData.packages && webData.packages.length > 0) {
+            console.log(`✅ 公开API成功，同时从网页提取到 ${webData.packages.length} 个packages:`, webData.packages)
+            return {
+              repo,
+              latestRelease,
+              packages: webData.packages
+            }
+          }
+        } catch (webError) {
+          console.log(`⚠️  公开API成功但网页抓取packages失败: ${repoPath}`)
+        }
+        
         console.log(`✅ 公开API成功获取仓库信息: ${repoPath}`)
         return {
-          repo: publicRepoResponse.data,
-          latestRelease: publicReleasesResponse.data.length > 0 ? publicReleasesResponse.data[0] : null
+          repo,
+          latestRelease
         }
       } catch (publicError) {
         console.log(`❌ 公开API也失败，尝试网页抓取: ${repoPath}`)
