@@ -156,7 +156,7 @@ export class ApiService {
   static async extractPackagesFromRepoPage(html: string, repoPath: string): Promise<string[]> {
     try {
       const packages: string[] = []
-      const [owner, repo] = repoPath.split('/')
+      const [, repo] = repoPath.split('/')
       
       // 方法1: 直接请求packages_list接口
       const packagesListMatch = html.match(/src="\/([^\/]+\/[^\/]+)\/packages_list[^"]*"/)
