@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-04T12:49:20.852Z",
+    "generatedAt": "2025-12-04T13:03:17.289Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -27,7 +27,7 @@
       "latestVersion": "v0.7.0",
       "lastUpdateTime": "2025-11-26T04:20:24Z",
       "packageVersion": "v0.7.0",
-      "packageUpdateTime": "2025-11-29T11:51:44Z",
+      "packageUpdateTime": "2025-11-29T03:51:43-08:00",
       "status": "success"
     },
     {
@@ -77,6 +77,8 @@
       "desc": "基于 MoonTV 修改",
       "type": "GitHub网站",
       "lastCommitTime": "2025-10-17T06:22:03Z",
+      "packageVersion": "sha-bed0765",
+      "packageUpdateTime": "2025-10-16T23:24:58-07:00",
       "status": "success"
     },
     {
