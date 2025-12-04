@@ -560,15 +560,64 @@ export class ApiService {
       for (const packageName of uniqueNames) {
         try {
           console.log(`尝试直接访问package: ${owner}/${packageName}`)
-          const packageResponse = await githubApi.get<GitHubPackage>(`/orgs/${owner}/packages/container/${packageName}`)
-          console.log(`✅ 成功获取package: ${packageName}`)
+          const packageResponse = await githubApi.get<any>(`/orgs/${owner}/packages/container/${packageName}`)
+          
+          // 获取版本信息 - GitHub Package API不返回latest_version，需要额外调用versions接口
+          try {
+            const versionsResponse = await githubApi.get<any[]>(`/orgs/${owner}/packages/container/${packageName}/versions`, {
+              params: { per_page: 1 }
+            })
+            
+            if (versionsResponse.data.length > 0) {
+              const versionData = versionsResponse.data[0]
+              // 从metadata中提取版本标签
+              const metadata = versionData.metadata || {}
+              const container = metadata.container || {}
+              const tags = container.tags || []
+              
+              if (tags.length > 0) {
+                packageResponse.data.latest_version = tags[0]
+                console.log(`✅ 成功获取package: ${packageName}, 版本: ${tags[0]}`)
+              } else {
+                packageResponse.data.latest_version = versionData.name || 'latest'
+                console.log(`✅ 成功获取package: ${packageName}, 版本: ${packageResponse.data.latest_version}`)
+              }
+            }
+          } catch (versionError) {
+            console.log(`❌ 获取package版本信息失败: ${packageName}`)
+            packageResponse.data.latest_version = 'latest'
+          }
+          
           return [packageResponse.data]
         } catch (packageError) {
           console.log(`❌ Package ${packageName} 不存在或无权限访问`)
           // 如果token访问失败，尝试公开API
           try {
             console.log(`🔄 尝试公开API访问package: ${owner}/${packageName}`)
-            const publicResponse = await githubPublicApi.get<GitHubPackage>(`/orgs/${owner}/packages/container/${packageName}`)
+            const publicResponse = await githubPublicApi.get<any>(`/orgs/${owner}/packages/container/${packageName}`)
+            
+            // 公开API也需要获取版本信息
+            try {
+              const versionsResponse = await githubPublicApi.get<any[]>(`/orgs/${owner}/packages/container/${packageName}/versions`, {
+                params: { per_page: 1 }
+              })
+              
+              if (versionsResponse.data.length > 0) {
+                const versionData = versionsResponse.data[0]
+                const metadata = versionData.metadata || {}
+                const container = metadata.container || {}
+                const tags = container.tags || []
+                
+                if (tags.length > 0) {
+                  publicResponse.data.latest_version = tags[0]
+                } else {
+                  publicResponse.data.latest_version = versionData.name || 'latest'
+                }
+              }
+            } catch (versionError) {
+              publicResponse.data.latest_version = 'latest'
+            }
+            
             console.log(`✅ 公开API成功获取package: ${packageName}`)
             return [publicResponse.data]
           } catch (publicError) {
@@ -628,6 +677,30 @@ export class ApiService {
         
         return false
       })
+      
+      // 为匹配的packages获取版本信息
+      for (const pkg of filteredPackages) {
+        try {
+          const versionsResponse = await githubApi.get<any[]>(`/orgs/${owner}/packages/container/${pkg.name}/versions`, {
+            params: { per_page: 1 }
+          })
+          
+          if (versionsResponse.data.length > 0) {
+            const versionData = versionsResponse.data[0]
+            const metadata = versionData.metadata || {}
+            const container = metadata.container || {}
+            const tags = container.tags || []
+            
+            if (tags.length > 0) {
+              pkg.latest_version = tags[0]
+            } else {
+              pkg.latest_version = versionData.name || 'latest'
+            }
+          }
+        } catch (versionError) {
+          pkg.latest_version = 'latest'
+        }
+      }
       
       console.log(`Packages匹配结果 for ${repoPath}:`, {
         totalPackages: allPackages.length,
