@@ -105,13 +105,13 @@ export class ApiService {
       const repoData = this.parseGitHubRepoPage(html)
       
       // 从主页面提取packages信息
-          const packages = await this.extractPackagesFromRepoPage(html, repoPath)
-          if (packages.length > 0) {
-            console.log(`✅ 从主页面提取到 ${packages.length} 个packages:`, packages)
-            repoData.packages = packages
-          } else {
-            console.log(`❌ 从主页面未提取到packages`)
-          }
+      const packages = await this.extractPackagesFromRepoPage(html, repoPath)
+      if (packages.length > 0) {
+        console.log(`✅ 从主页面提取到 ${packages.length} 个packages:`, packages)
+        repoData.packages = packages
+      } else {
+        console.log(`❌ 从主页面未提取到packages`)
+      }
       
       // 总是从提交历史页面获取最新的提交时间（确保准确性，覆盖主页面可能的旧数据）
       console.log(`🔄 从提交历史页面获取最新的提交时间: ${repoPath}`)
