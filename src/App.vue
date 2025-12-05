@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <h1>网站/项目状态跟踪系统</h1>
+      <h1><a href="https://github.com/lazebird/stracker" target="_blank">网站/项目状态跟踪系统</a></h1>
     </header>
     <main>
       <SiteTracker />
@@ -10,12 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import SiteTracker from './components/SiteTracker.vue'
+import SiteTracker from "./components/SiteTracker.vue";
 </script>
 
 <style>
 #app {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;

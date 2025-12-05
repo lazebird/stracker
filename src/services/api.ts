@@ -23,106 +23,81 @@ const githubPublicApi = axios.create({
 
 export class ApiService {
   static async getGitHubRepoInfo(repoPath: string): Promise<{ repo: GitHubRepo; latestRelease: GitHubRelease | null; packages?: string[] }> {
+    // 优先使用网页抓取，确保与日常所见一致，避免API限速
     try {
-      const [repoResponse, releasesResponse] = await Promise.all([
-        githubApi.get<GitHubRepo>(`/repos/${repoPath}`),
-        githubApi.get<GitHubRelease[]>(`/repos/${repoPath}/releases`, {
-          params: { per_page: 1 }
-        })
-      ])
-
-      const repo = repoResponse.data
-      const latestRelease = releasesResponse.data.length > 0 ? releasesResponse.data[0] : null
+      console.log(`🌐 优先使用网页抓取获取仓库信息: ${repoPath}`)
+      const webData = await this.getGitHubRepoInfoWeb(repoPath)
+      console.log(`✅ 网页抓取成功获取仓库信息: ${repoPath}`)
       
-      // 尝试从网页抓取packages信息（即使API成功，也可能需要packages信息）
-      try {
-        const webData = await this.getGitHubRepoInfoWeb(repoPath)
-        if (webData.packages && webData.packages.length > 0) {
-          console.log(`✅ API成功，同时从网页提取到 ${webData.packages.length} 个packages:`, webData.packages)
-          return {
-            repo,
-            latestRelease,
-            packages: webData.packages
-          }
-        }
-      } catch (webError) {
-        // 网页抓取失败不影响主流程
-        console.log(`⚠️  API成功但网页抓取packages失败: ${repoPath}`)
+      // 转换为标准格式
+      const repo: GitHubRepo = {
+        name: webData.name,
+        full_name: webData.full_name,
+        html_url: webData.html_url,
+        pushed_at: webData.pushed_at,
+        updated_at: webData.updated_at,
+        default_branch: webData.default_branch
       }
       
-      return {
+      // 创建虚拟的release对象
+      const latestRelease: GitHubRelease | null = webData.latest_version ? {
+        tag_name: webData.latest_version,
+        published_at: webData.updated_at,
+        name: webData.latest_version
+      } : null
+      
+      // 返回packages信息（如果存在）
+      const result: any = {
         repo,
         latestRelease
       }
-    } catch (error) {
-      console.log(`❌ GitHub API访问失败，尝试公开API: ${repoPath}`)
+      if (webData.packages && webData.packages.length > 0) {
+        result.packages = webData.packages
+      }
+      return result
+    } catch (webError) {
+      console.log(`⚠️  网页抓取失败，尝试GitHub API: ${repoPath}`)
+      
+      // 网页抓取失败，尝试API（带token）
       try {
-        const [publicRepoResponse, publicReleasesResponse] = await Promise.all([
-          githubPublicApi.get<GitHubRepo>(`/repos/${repoPath}`),
-          githubPublicApi.get<GitHubRelease[]>(`/repos/${repoPath}/releases`, {
+        const [repoResponse, releasesResponse] = await Promise.all([
+          githubApi.get<GitHubRepo>(`/repos/${repoPath}`),
+          githubApi.get<GitHubRelease[]>(`/repos/${repoPath}/releases`, {
             params: { per_page: 1 }
           })
         ])
 
-        const repo = publicRepoResponse.data
-        const latestRelease = publicReleasesResponse.data.length > 0 ? publicReleasesResponse.data[0] : null
+        const repo = repoResponse.data
+        const latestRelease = releasesResponse.data.length > 0 ? releasesResponse.data[0] : null
         
-        // 尝试从网页抓取packages信息
-        try {
-          const webData = await this.getGitHubRepoInfoWeb(repoPath)
-          if (webData.packages && webData.packages.length > 0) {
-            console.log(`✅ 公开API成功，同时从网页提取到 ${webData.packages.length} 个packages:`, webData.packages)
-            return {
-              repo,
-              latestRelease,
-              packages: webData.packages
-            }
-          }
-        } catch (webError) {
-          console.log(`⚠️  公开API成功但网页抓取packages失败: ${repoPath}`)
-        }
-        
-        console.log(`✅ 公开API成功获取仓库信息: ${repoPath}`)
+        console.log(`✅ GitHub API成功获取仓库信息: ${repoPath}`)
         return {
           repo,
           latestRelease
         }
-      } catch (publicError) {
-        console.log(`❌ 公开API也失败，尝试网页抓取: ${repoPath}`)
+      } catch (error) {
+        console.log(`⚠️  GitHub API失败，尝试公开API: ${repoPath}`)
+        
+        // API失败，尝试公开API
         try {
-          // 使用网页抓取作为最后的fallback
-          const webData = await this.getGitHubRepoInfoWeb(repoPath)
-          console.log(`✅ 网页抓取成功获取仓库信息: ${repoPath}`)
+          const [publicRepoResponse, publicReleasesResponse] = await Promise.all([
+            githubPublicApi.get<GitHubRepo>(`/repos/${repoPath}`),
+            githubPublicApi.get<GitHubRelease[]>(`/repos/${repoPath}/releases`, {
+              params: { per_page: 1 }
+            })
+          ])
+
+          const repo = publicRepoResponse.data
+          const latestRelease = publicReleasesResponse.data.length > 0 ? publicReleasesResponse.data[0] : null
           
-          // 转换为标准格式
-          const repo: GitHubRepo = {
-            name: webData.name,
-            full_name: webData.full_name,
-            html_url: webData.html_url,
-            pushed_at: webData.pushed_at,
-            updated_at: webData.updated_at,
-            default_branch: webData.default_branch
-          }
-          
-          // 创建虚拟的release对象
-          const latestRelease: GitHubRelease | null = webData.latest_version ? {
-            tag_name: webData.latest_version,
-            published_at: webData.updated_at,
-            name: webData.latest_version
-          } : null
-          
-          // 返回packages信息（如果存在）
-          const result: any = {
+          console.log(`✅ 公开API成功获取仓库信息: ${repoPath}`)
+          return {
             repo,
             latestRelease
           }
-          if (webData.packages && webData.packages.length > 0) {
-            result.packages = webData.packages
-          }
-          return result
-        } catch (webError) {
-          console.error(`网页抓取也无法获取GitHub仓库信息: ${repoPath}`, webError)
-          throw webError
+        } catch (publicError) {
+          console.error(`❌ 所有方法都失败: ${repoPath}`, publicError)
+          throw new Error(`无法获取仓库信息: ${repoPath}`)
         }
       }
     }
@@ -151,9 +126,10 @@ export class ApiService {
       }
       
       // 总是从提交历史页面获取最新的提交时间（确保准确性，覆盖主页面可能的旧数据）
-      console.log(`🔄 从提交历史页面获取最新的提交时间: ${repoPath}`)
+      const defaultBranch = repoData.default_branch || 'main'
+      console.log(`🔄 从提交历史页面获取最新的提交时间: ${repoPath} (分支: ${defaultBranch})`)
       try {
-        const commitsResponse = await axios.get(`https://github.com/${repoPath}/commits/main/`, {
+        const commitsResponse = await axios.get(`https://github.com/${repoPath}/commits/${defaultBranch}/`, {
           headers: {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
