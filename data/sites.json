@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-04T13:03:17.289Z",
+    "generatedAt": "2025-12-05T02:44:18.414Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,11 +11,11 @@
       "url": "https://github.com/XWF8188/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-11-26T12:24:43Z",
+      "lastCommitTime": "2025-11-26T12:24:42.000Z",
       "latestVersion": "5.6.3",
       "lastUpdateTime": "2025-11-17T18:17:03Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-04T04:28:57-08:00",
+      "packageUpdateTime": "2025-12-04T17:01:35-08:00",
       "status": "success"
     },
     {
@@ -23,7 +23,7 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-11-29T11:48:57Z",
+      "lastCommitTime": "2025-11-29T19:48:36.000+08:00",
       "latestVersion": "v0.7.0",
       "lastUpdateTime": "2025-11-26T04:20:24Z",
       "packageVersion": "v0.7.0",
@@ -35,7 +35,7 @@
       "url": "https://github.com/hsq1820/DanmuTV",
       "desc": "MoonTV二开，electron APP",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-20T00:15:20Z",
+      "lastCommitTime": "2025-10-09T17:50:42Z",
       "latestVersion": "v1.2.0",
       "lastUpdateTime": "2025-10-09T17:50:42Z",
       "status": "success"
@@ -45,7 +45,7 @@
       "url": "https://github.com/djteang/OrangeTV",
       "desc": "源自MoonTV，issue可用",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-09-25T03:08:38Z",
+      "lastCommitTime": "2025-09-25T11:08:27.000+08:00",
       "latestVersion": "8.9.5",
       "lastUpdateTime": "2025-09-20T17:24:55Z",
       "packageVersion": "latest",
@@ -66,7 +66,7 @@
       "url": "https://github.com/Ouonnki/OuonnkiTV",
       "desc": "基于LibreTV修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-01T09:35:42Z",
+      "lastCommitTime": "2025-12-01T17:33:01.000+08:00",
       "packageVersion": "main-c11584f",
       "packageUpdateTime": "2025-12-01T01:41:21-08:00",
       "status": "success"
@@ -76,7 +76,7 @@
       "url": "https://github.com/fxzer/nova-tv",
       "desc": "基于 MoonTV 修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-17T06:22:03Z",
+      "lastCommitTime": "2025-10-17T14:21:55.000+08:00",
       "packageVersion": "sha-bed0765",
       "packageUpdateTime": "2025-10-16T23:24:58-07:00",
       "status": "success"
@@ -86,11 +86,11 @@
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-04T07:12:58Z",
+      "lastCommitTime": "2025-12-05T01:54:11.000+08:00",
       "latestVersion": "v3.5.0",
       "lastUpdateTime": "2025-11-30T09:13:06Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-03T23:30:08-08:00",
+      "packageUpdateTime": "2025-12-04T10:11:42-08:00",
       "status": "success"
     },
     {
@@ -98,7 +98,7 @@
       "url": "https://github.com/programClown/LunaTV",
       "desc": "win app版",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-11T09:36:33Z",
+      "lastCommitTime": "2025-10-11T17:36:28.000+08:00",
       "latestVersion": "v0.9.4.1",
       "lastUpdateTime": "2025-10-05T03:07:09Z",
       "status": "success"
@@ -108,7 +108,7 @@
       "url": "https://github.com/sdlw7757/KatelyaTV-Portable-Edition",
       "desc": "基于本地运行",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-06T10:59:48Z",
+      "lastCommitTime": "2025-10-06T18:59:48.000+08:00",
       "latestVersion": "v2.3.4",
       "lastUpdateTime": "2025-10-06T10:34:21Z",
       "status": "success"
