@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-16T02:50:48.750Z",
+    "generatedAt": "2025-12-17T02:46:48.993Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,11 +11,11 @@
       "url": "https://github.com/XWF8188/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-15T18:19:03.000Z",
+      "lastCommitTime": "2025-12-16T12:25:41.000Z",
       "latestVersion": "5.7.1",
       "lastUpdateTime": "2025-12-13T18:15:39Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-15T17:03:08-08:00",
+      "packageUpdateTime": "2025-12-16T16:58:33-08:00",
       "status": "success"
     },
     {
@@ -27,7 +27,7 @@
       "latestVersion": "v0.8.0",
       "lastUpdateTime": "2025-12-12T06:10:55Z",
       "packageVersion": "v0.8.0",
-      "packageUpdateTime": "2025-12-15T07:58:55-08:00",
+      "packageUpdateTime": "2025-12-15T21:23:28-08:00",
       "status": "success"
     },
     {
@@ -58,7 +58,7 @@
       "desc": "未开源 号称强聚合",
       "type": "Docker Hub镜像",
       "latestVersion": "latest",
-      "lastUpdateTime": "2025-12-15T15:19:51.593611Z",
+      "lastUpdateTime": "2025-12-16T03:34:02.542798Z",
       "status": "success"
     },
     {
@@ -66,9 +66,9 @@
       "url": "https://github.com/Ouonnki/OuonnkiTV",
       "desc": "基于LibreTV修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-01T17:33:01.000+08:00",
-      "packageVersion": "main-c11584f",
-      "packageUpdateTime": "2025-12-01T01:41:21-08:00",
+      "lastCommitTime": "2025-12-16T23:34:01.000+08:00",
+      "packageVersion": "main-174d5b0",
+      "packageUpdateTime": "2025-12-16T07:40:47-08:00",
       "status": "success"
     },
     {
@@ -86,11 +86,11 @@
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-15T21:07:26.000+08:00",
+      "lastCommitTime": "2025-12-16T13:11:13.000+08:00",
       "latestVersion": "v3.6.2",
       "lastUpdateTime": "2025-12-09T11:13:53Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-15T05:29:00-08:00",
+      "packageUpdateTime": "2025-12-15T21:27:52-08:00",
       "status": "success"
     },
     {
