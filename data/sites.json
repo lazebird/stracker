@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-18T02:47:19.395Z",
+    "generatedAt": "2025-12-19T02:50:14.084Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -15,7 +15,7 @@
       "latestVersion": "5.7.1",
       "lastUpdateTime": "2025-12-13T18:15:39Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-17T16:59:50-08:00",
+      "packageUpdateTime": "2025-12-18T17:02:49-08:00",
       "status": "success"
     },
     {
@@ -76,9 +76,9 @@
       "url": "https://github.com/fxzer/nova-tv",
       "desc": "基于 MoonTV 修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-17T14:21:55.000+08:00",
-      "packageVersion": "sha-bed0765",
-      "packageUpdateTime": "2025-10-16T23:24:58-07:00",
+      "lastCommitTime": "2025-12-18T15:19:35.000+08:00",
+      "packageVersion": "sha-cada460",
+      "packageUpdateTime": "2025-12-17T23:22:29-08:00",
       "status": "success"
     },
     {
