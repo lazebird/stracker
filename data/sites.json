@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-27T02:48:14.030Z",
+    "generatedAt": "2025-12-28T03:03:41.269Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,11 +11,11 @@
       "url": "https://github.com/XWF8188/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-26T18:17:45.000Z",
-      "latestVersion": "5.8.0",
-      "lastUpdateTime": "2025-12-24T06:20:24Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-26T17:00:17-08:00",
+      "lastCommitTime": "2025-12-27T18:16:49.000Z",
+      "latestVersion": "5.9.0",
+      "lastUpdateTime": "2025-12-27T18:17:03Z",
+      "packageVersion": "5.9.0",
+      "packageUpdateTime": "2025-12-27T17:08:47-08:00",
       "status": "success"
     },
     {
@@ -23,11 +23,11 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-25T12:55:08.000+08:00",
-      "latestVersion": "v0.9.0",
-      "lastUpdateTime": "2025-12-20T08:24:13Z",
-      "packageVersion": "v0.9.0",
-      "packageUpdateTime": "2025-12-24T20:57:58-08:00",
+      "lastCommitTime": "2025-12-28T02:08:16.000+08:00",
+      "latestVersion": "v1.0.0",
+      "lastUpdateTime": "2025-12-27T18:21:11Z",
+      "packageVersion": "v1.0.0",
+      "packageUpdateTime": "2025-12-27T10:18:10-08:00",
       "status": "success"
     },
     {
