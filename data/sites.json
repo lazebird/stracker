@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-29T03:03:43.654Z",
+    "generatedAt": "2025-12-30T02:53:26.624Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,11 +11,11 @@
       "url": "https://github.com/XWF8188/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-28T18:17:21.000Z",
+      "lastCommitTime": "2025-12-29T18:18:41.000Z",
       "latestVersion": "5.9.0",
       "lastUpdateTime": "2025-12-27T18:17:03Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-28T17:07:39-08:00",
+      "packageUpdateTime": "2025-12-29T17:02:05-08:00",
       "status": "success"
     },
     {
