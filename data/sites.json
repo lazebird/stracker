@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2025-12-31T02:52:34.191Z",
+    "generatedAt": "2026-01-01T03:05:30.498Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,11 +11,11 @@
       "url": "https://github.com/XWF8188/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-30T18:18:49.000Z",
-      "latestVersion": "5.9.0",
-      "lastUpdateTime": "2025-12-27T18:17:03Z",
+      "lastCommitTime": "2025-12-31T18:17:56.000Z",
+      "latestVersion": "5.9.1",
+      "lastUpdateTime": "2025-12-31T12:24:04Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-30T17:04:20-08:00",
+      "packageUpdateTime": "2025-12-31T17:09:30-08:00",
       "status": "success"
     },
     {
@@ -58,7 +58,7 @@
       "desc": "未开源 号称强聚合",
       "type": "Docker Hub镜像",
       "latestVersion": "latest",
-      "lastUpdateTime": "2025-12-21T16:03:27.777671Z",
+      "lastUpdateTime": "2026-01-01T02:40:09.911974Z",
       "status": "success"
     },
     {
@@ -86,11 +86,11 @@
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-12-16T13:11:13.000+08:00",
-      "latestVersion": "v3.6.2",
-      "lastUpdateTime": "2025-12-09T11:13:53Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2025-12-15T21:27:52-08:00",
+      "lastCommitTime": "2025-12-31T19:12:39.000Z",
+      "latestVersion": "v3.7.0",
+      "lastUpdateTime": "2025-12-31T19:12:35Z",
+      "packageVersion": "v3.7.0",
+      "packageUpdateTime": "2025-12-31T11:33:40-08:00",
       "status": "success"
     },
     {
