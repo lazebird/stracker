@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-01-05T03:08:37.057Z",
+    "generatedAt": "2026-01-06T02:54:54.310Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,11 +11,11 @@
       "url": "https://github.com/XWF8188/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-01-05T01:05:49.000Z",
-      "latestVersion": "5.9.1",
-      "lastUpdateTime": "2025-12-31T12:24:04Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2026-01-04T17:08:57-08:00",
+      "lastCommitTime": "2026-01-05T18:20:02.000Z",
+      "latestVersion": "5.9.2",
+      "lastUpdateTime": "2026-01-05T18:20:17Z",
+      "packageVersion": "5.9.2",
+      "packageUpdateTime": "2026-01-05T17:03:23-08:00",
       "status": "success"
     },
     {
@@ -23,11 +23,11 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-01-04T23:48:03.000+08:00",
+      "lastCommitTime": "2026-01-04T17:55:51.000+08:00",
       "latestVersion": "v1.1.0",
       "lastUpdateTime": "2026-01-01T09:34:33Z",
       "packageVersion": "v1.1.0",
-      "packageUpdateTime": "2026-01-04T07:50:37-08:00",
+      "packageUpdateTime": "2026-01-05T03:16:34-08:00",
       "status": "success"
     },
     {
@@ -58,7 +58,7 @@
       "desc": "未开源 号称强聚合",
       "type": "Docker Hub镜像",
       "latestVersion": "latest",
-      "lastUpdateTime": "2026-01-01T02:40:09.911974Z",
+      "lastUpdateTime": "2026-01-05T07:17:22.399461Z",
       "status": "success"
     },
     {
@@ -86,11 +86,11 @@
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-01-05T10:27:40.000+08:00",
+      "lastCommitTime": "2026-01-05T11:09:22.000+08:00",
       "latestVersion": "v3.8.2",
       "lastUpdateTime": "2026-01-04T03:53:21Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2026-01-04T18:47:13-08:00",
+      "packageVersion": "v3.8.2",
+      "packageUpdateTime": "2026-01-04T19:26:06-08:00",
       "status": "success"
     },
     {
