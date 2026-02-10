@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-09T03:40:16.036Z",
+    "generatedAt": "2026-02-10T03:48:15.793Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -15,7 +15,7 @@
       "latestVersion": "6.1.1",
       "lastUpdateTime": "2026-01-31T18:19:16Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-02-08T17:20:14-08:00",
+      "packageUpdateTime": "2026-02-09T17:28:51-08:00",
       "status": "success"
     },
     {
@@ -23,11 +23,11 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-02-08T14:14:22.000+08:00",
+      "lastCommitTime": "2026-02-09T23:06:08.000+08:00",
       "latestVersion": "v1.2.0",
       "lastUpdateTime": "2026-01-30T07:52:53Z",
       "packageVersion": "v1.2.0",
-      "packageUpdateTime": "2026-02-07T22:17:10-08:00",
+      "packageUpdateTime": "2026-02-09T07:08:38-08:00",
       "status": "success"
     },
     {
