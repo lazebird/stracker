@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-23T03:37:24.251Z",
+    "generatedAt": "2026-02-24T03:33:11.503Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -15,7 +15,7 @@
       "latestVersion": "6.1.2",
       "lastUpdateTime": "2026-02-17T03:24:20Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-02-22T17:57:13-08:00",
+      "packageUpdateTime": "2026-02-23T17:54:36-08:00",
       "status": "success"
     },
     {
@@ -23,11 +23,11 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-02-21T16:03:22.000+08:00",
+      "lastCommitTime": "2026-02-23T21:54:47.000+08:00",
       "latestVersion": "v1.3.0",
       "lastUpdateTime": "2026-02-12T11:10:35Z",
       "packageVersion": "v1.3.0",
-      "packageUpdateTime": "2026-02-21T00:06:13-08:00",
+      "packageUpdateTime": "2026-02-23T05:57:55-08:00",
       "status": "success"
     },
     {
@@ -66,9 +66,9 @@
       "url": "https://github.com/Ouonnki/OuonnkiTV",
       "desc": "基于LibreTV修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-01-03T21:41:43.000+08:00",
-      "packageVersion": "main-58c945b",
-      "packageUpdateTime": "2026-01-03T05:48:06-08:00",
+      "lastCommitTime": "2026-02-24T10:13:50.000+08:00",
+      "packageVersion": "main-12bfffe",
+      "packageUpdateTime": "2026-02-23T18:21:36-08:00",
       "status": "success"
     },
     {
