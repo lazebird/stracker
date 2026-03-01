@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-02-28T03:07:52.939Z",
+    "generatedAt": "2026-03-01T03:38:48.796Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -15,7 +15,7 @@
       "latestVersion": "6.1.2",
       "lastUpdateTime": "2026-02-17T03:24:20Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-02-27T17:32:43-08:00",
+      "packageUpdateTime": "2026-02-28T18:03:08-08:00",
       "status": "success"
     },
     {
@@ -66,9 +66,9 @@
       "url": "https://github.com/Ouonnki/OuonnkiTV",
       "desc": "基于LibreTV修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-02-26T21:52:55.000+08:00",
-      "packageVersion": "main-bf237e5",
-      "packageUpdateTime": "2026-02-26T06:15:33-08:00",
+      "lastCommitTime": "2026-02-28T20:03:26.000+08:00",
+      "packageVersion": "main-ec163bf",
+      "packageUpdateTime": "2026-02-28T04:11:29-08:00",
       "status": "success"
     },
     {
@@ -77,8 +77,6 @@
       "desc": "基于 MoonTV 修改",
       "type": "GitHub网站",
       "lastCommitTime": "2025-12-18T15:19:35.000+08:00",
-      "packageVersion": "sha-cada460",
-      "packageUpdateTime": "2025-12-17T23:22:29-08:00",
       "status": "success"
     },
     {
@@ -98,7 +96,7 @@
       "url": "https://github.com/programClown/LunaTV",
       "desc": "win app版",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-11T17:36:28.000+08:00",
+      "lastCommitTime": "2026-02-28T15:22:59.000+08:00",
       "latestVersion": "v0.9.4.1",
       "lastUpdateTime": "2025-10-05T03:07:09Z",
       "status": "success"
