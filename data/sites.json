@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-03-01T03:38:48.796Z",
+    "generatedAt": "2026-03-02T03:28:16.963Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -15,7 +15,7 @@
       "latestVersion": "6.1.2",
       "lastUpdateTime": "2026-02-17T03:24:20Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-02-28T18:03:08-08:00",
+      "packageUpdateTime": "2026-03-01T17:54:20-08:00",
       "status": "success"
     },
     {
@@ -77,6 +77,8 @@
       "desc": "基于 MoonTV 修改",
       "type": "GitHub网站",
       "lastCommitTime": "2025-12-18T15:19:35.000+08:00",
+      "packageVersion": "sha-cada460",
+      "packageUpdateTime": "2025-12-17T23:22:29-08:00",
       "status": "success"
     },
     {
