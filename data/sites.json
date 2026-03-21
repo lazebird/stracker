@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-03-20T03:28:04.379Z",
+    "generatedAt": "2026-03-21T03:18:52.868Z",
     "totalSites": 10,
     "successCount": 9,
     "errorCount": 1
@@ -54,7 +54,7 @@
       "desc": "未开源 号称强聚合",
       "type": "Docker Hub镜像",
       "latestVersion": "latest",
-      "lastUpdateTime": "2026-03-16T14:03:12.131216Z",
+      "lastUpdateTime": "2026-03-20T13:02:16.049493Z",
       "status": "success"
     },
     {
@@ -63,8 +63,8 @@
       "desc": "基于LibreTV修改",
       "type": "GitHub网站",
       "lastCommitTime": "2026-03-20T10:31:34.000+08:00",
-      "packageVersion": "main-bd13d56",
-      "packageUpdateTime": "2026-03-19T06:35:25-07:00",
+      "packageVersion": "main-f06143c",
+      "packageUpdateTime": "2026-03-19T20:29:33-07:00",
       "status": "success"
     },
     {
