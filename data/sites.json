@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-03-31T03:48:03.756Z",
+    "generatedAt": "2026-04-01T03:59:26.200Z",
     "totalSites": 10,
     "successCount": 9,
     "errorCount": 1
@@ -54,7 +54,7 @@
       "desc": "未开源 号称强聚合",
       "type": "Docker Hub镜像",
       "latestVersion": "latest",
-      "lastUpdateTime": "2026-03-29T03:41:53.978846Z",
+      "lastUpdateTime": "2026-03-31T05:26:54.466286Z",
       "status": "success"
     },
     {
