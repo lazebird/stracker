@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-04-12T04:08:43.959Z",
+    "generatedAt": "2026-04-13T04:17:52.046Z",
     "totalSites": 10,
     "successCount": 9,
     "errorCount": 1
@@ -19,11 +19,11 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-04-04T10:06:16.000+08:00",
+      "lastCommitTime": "2026-04-12T13:27:56.000+08:00",
       "latestVersion": "v1.4.0",
       "lastUpdateTime": "2026-03-26T13:16:55Z",
       "packageVersion": "v1.4.0",
-      "packageUpdateTime": "2026-04-03T19:08:37-07:00",
+      "packageUpdateTime": "2026-04-11T22:30:18-07:00",
       "status": "success"
     },
     {
@@ -104,7 +104,7 @@
       "url": "https://github.com/sdlw7757/KatelyaTV-Portable-Edition",
       "desc": "基于本地运行",
       "type": "GitHub网站",
-      "lastCommitTime": "2025-10-06T10:34:21Z",
+      "lastCommitTime": "2025-10-06T18:59:48.000+08:00",
       "latestVersion": "v2.3.4",
       "lastUpdateTime": "2025-10-06T10:34:21Z",
       "status": "success"
