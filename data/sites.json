@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-04-16T04:12:29.931Z",
+    "generatedAt": "2026-04-17T04:09:42.299Z",
     "totalSites": 10,
     "successCount": 9,
     "errorCount": 1
@@ -54,7 +54,7 @@
       "desc": "未开源 号称强聚合",
       "type": "Docker Hub镜像",
       "latestVersion": "latest",
-      "lastUpdateTime": "2026-04-15T03:58:31.365514Z",
+      "lastUpdateTime": "2026-04-17T03:40:42.094731Z",
       "status": "success"
     },
     {
@@ -62,9 +62,9 @@
       "url": "https://github.com/Ouonnki/OuonnkiTV",
       "desc": "基于LibreTV修改",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-03-20T10:31:34.000+08:00",
-      "packageVersion": "main-f06143c",
-      "packageUpdateTime": "2026-03-19T20:29:33-07:00",
+      "lastCommitTime": "2026-04-16T13:50:57.000+08:00",
+      "packageVersion": "main-98fc00d",
+      "packageUpdateTime": "2026-04-15T23:03:34-07:00",
       "status": "success"
     },
     {
