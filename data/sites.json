@@ -1,18 +1,20 @@
 {
   "metadata": {
-    "generatedAt": "2026-04-23T04:10:56.613Z",
+    "generatedAt": "2026-04-23T06:11:02.353Z",
     "totalSites": 10,
-    "successCount": 9,
-    "errorCount": 1
+    "successCount": 10,
+    "errorCount": 0
   },
   "sites": [
     {
-      "name": "XWF8188/LunaTV",
-      "url": "https://github.com/XWF8188/LunaTV",
+      "name": "SzeMeng76/LunaTV",
+      "url": "https://github.com/SzeMeng76/LunaTV",
       "desc": "LunaTV Enhanced Edition",
-      "type": "未知",
-      "status": "error",
-      "errorMessage": "无法获取仓库信息: XWF8188/LunaTV"
+      "type": "GitHub网站",
+      "lastCommitTime": "2026-04-22T00:29:34.000+08:00",
+      "packageVersion": "latest",
+      "packageUpdateTime": "2026-04-21T09:32:42-07:00",
+      "status": "success"
     },
     {
       "name": "Decohererk/DecoTV",
