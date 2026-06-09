@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-06-08T05:26:50.782Z",
+    "generatedAt": "2026-06-09T05:00:28.060Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -21,11 +21,11 @@
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-06-07T14:17:25.000+08:00",
-      "latestVersion": "v1.4.0",
-      "lastUpdateTime": "2026-03-26T13:16:55Z",
-      "packageVersion": "v1.4.0",
-      "packageUpdateTime": "2026-06-06T23:20:24-07:00",
+      "lastCommitTime": "2026-06-08T22:37:52.000+08:00",
+      "latestVersion": "v1.5.0",
+      "lastUpdateTime": "2026-06-08T13:26:44Z",
+      "packageVersion": "v1.5.0",
+      "packageUpdateTime": "2026-06-08T07:40:53-07:00",
       "status": "success"
     },
     {
@@ -96,9 +96,9 @@
       "url": "https://github.com/programClown/LunaTV",
       "desc": "win app版",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-06-01T19:29:12.000+08:00",
-      "latestVersion": "0.9.5.2",
-      "lastUpdateTime": "2026-06-01T11:31:39Z",
+      "lastCommitTime": "2026-06-09T10:05:15.000+08:00",
+      "latestVersion": "0.9.5.3",
+      "lastUpdateTime": "2026-06-09T02:08:27Z",
       "status": "success"
     },
     {
