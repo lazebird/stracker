@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-06-15T06:19:22.829Z",
+    "generatedAt": "2026-06-16T06:29:19.967Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -13,7 +13,7 @@
       "type": "GitHub网站",
       "lastCommitTime": null,
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-06-12T05:49:34-07:00",
+      "packageUpdateTime": "2026-06-15T22:24:25-07:00",
       "status": "success"
     },
     {
