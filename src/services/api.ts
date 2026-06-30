@@ -11,7 +11,6 @@ export class ApiService {
     latestRelease: { tag_name: string; published_at: string; name: string } | null;
     packages?: string[]
   }> {
-    // 优先网页抓取，失败后回退到API
     return withFallback([
       async () => {
         const webData = await scrapeRepoPage(repoPath)
@@ -45,7 +44,9 @@ export class ApiService {
           } : null,
         }
       },
-    ])
+    ], {
+      onError: (e, i) => console.warn(`[getGitHubRepoInfo] 策略 ${i + 1} 失败 (${repoPath}):`, e instanceof Error ? e.message : e)
+    })
   }
 
   static async getSiteStatus(name: string, url: string, desc?: string, pkgname?: string): Promise<SiteStatus> {

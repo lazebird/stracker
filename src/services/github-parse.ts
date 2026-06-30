@@ -195,7 +195,7 @@ export function parseGitHubPackagePage(html: string, repoPath: string): GitHubPa
 
     return pkg
   } catch {
-    // 解析失败
+    // HTML解析失败（非严重错误，返回 null 由调用方处理）
   }
 
   return null

@@ -43,7 +43,9 @@ export async function fetchRepoViaApi(repoPath: string): Promise<RepoApiResult> 
   return withFallback([
     () => fetchRepoWithClient(githubApi, repoPath),
     () => fetchRepoWithClient(githubPublicApi, repoPath),
-  ])
+  ], {
+    onError: (e, i) => console.warn(`[fetchRepoViaApi] 策略 ${i + 1} 失败 (${repoPath}):`, e instanceof Error ? e.message : e)
+  })
 }
 
 async function fetchVersionForPackage(client: typeof githubApi, owner: string, packageName: string): Promise<string> {
@@ -60,7 +62,7 @@ async function fetchVersionForPackage(client: typeof githubApi, owner: string, p
       return tags.length > 0 ? tags[0] : (versionData.name || 'latest')
     }
   } catch {
-    // 版本信息获取失败
+    // 版本信息获取失败（使用默认值 'latest'）
   }
   return 'latest'
 }
@@ -101,7 +103,7 @@ async function listAndMatchPackage(
     })
     allPackages = allPackages.concat(orgResponse.data.packages)
   } catch {
-    // 组织级别获取失败
+    // 组织级别获取失败（自动尝试用户级别）
   }
 
   if (allPackages.length === 0) {
@@ -111,7 +113,7 @@ async function listAndMatchPackage(
       })
       allPackages = allPackages.concat(userResponse.data.packages)
     } catch {
-      // 用户级别获取失败
+      // 用户级别也失败（返回空列表）
     }
   }
 

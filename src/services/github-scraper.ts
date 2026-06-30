@@ -24,6 +24,7 @@ export async function scrapeRepoPage(repoPath: string): Promise<ScrapedRepoData>
   }
 
   const defaultBranch = repoData.default_branch || 'main'
+
   try {
     const commitsResponse = await axios.get(`https://github.com/${repoPath}/commits/${defaultBranch}/`, {
       headers: { ...BROWSER_HEADERS }
@@ -40,8 +41,9 @@ export async function scrapeRepoPage(repoPath: string): Promise<ScrapedRepoData>
         repoData.updated_at = latestCommitDate
       }
     }
-  } catch {
-    // 提交页面获取失败，使用主页面时间
+  } catch (e) {
+    // 提交页面失败 → 抛出让上游回退链尝试 API（API 有正确 pushed_at）
+    throw e
   }
 
   return repoData
@@ -73,7 +75,7 @@ export async function extractPackagesFromRepoPage(html: string, repoPath: string
           return packages
         }
       } catch {
-        // packages_list接口失败，继续其他方法
+        // packages_list接口失败（自动尝试其他方法）
       }
     }
 
