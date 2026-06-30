@@ -30,8 +30,8 @@ jobs:
     - name: 安装依赖
       run: pnpm install
       
-    - name: 获取网站数据
-      run: pnpm run fetch-data
+    - name: 获取网站数据，串行获取避免429错误
+      run: pnpm run fetch-data -- --serial
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
