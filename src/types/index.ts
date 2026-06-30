@@ -3,14 +3,18 @@ export interface Site {
   url: string
   desc?: string
   type?: 'github-repo' | 'github-docker' | 'docker-hub'
+  pkgname?: string
 }
 
 export interface GitHubPackage {
   id: number
   name: string
   package_type: string
-  latest_version: string
-  updated_at: string
+  latest_version?: string
+  updated_at?: string | null
+  created_at?: string | null
+  html_url?: string
+  owner?: { login: string }
 }
 
 export interface SiteStatus {

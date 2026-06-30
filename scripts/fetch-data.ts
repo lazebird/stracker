@@ -1,35 +1,19 @@
 import { writeFileSync, readFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
+import type { Site, SiteStatus } from "../src/types";
 import { ApiService } from "../src/services/api";
-
-interface Config {
-  sites: Array<{
-    name: string;
-    url: string;
-    desc?: string;
-  }>;
-}
-
-// 创建带超时的Promise
-function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 30000): Promise<T> {
-  return Promise.race([
-    promise,
-    new Promise<never>((_, reject) => {
-      setTimeout(() => reject(new Error(`请求超时 (${timeoutMs}ms)`)), timeoutMs);
-    }),
-  ]);
-}
+import { withTimeout } from "../src/utils/retry";
 
 async function fetchSiteData() {
   try {
     const configPath = join(process.cwd(), "config.json");
     const configContent = readFileSync(configPath, "utf-8");
-    const config: Config = JSON.parse(configContent);
+    const config: { sites: Site[] } = JSON.parse(configContent);
 
     console.log(`开始获取 ${config.sites.length} 个网站的数据...`);
 
     // 逐个处理网站，避免一个卡住影响全部
-    const siteStatuses: any[] = [];
+    const siteStatuses: SiteStatus[] = [];
 
     for (let i = 0; i < config.sites.length; i++) {
       const site = config.sites[i];
