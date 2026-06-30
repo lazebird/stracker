@@ -12,69 +12,56 @@ async function fetchSiteData() {
 
     console.log(`开始获取 ${config.sites.length} 个网站的数据...`);
 
-    // 逐个处理网站，避免一个卡住影响全部
-    const siteStatuses: SiteStatus[] = [];
-
-    for (let i = 0; i < config.sites.length; i++) {
-      const site = config.sites[i];
-      console.log(`\n[${i + 1}/${config.sites.length}] 正在获取: ${site.name}`);
-
-      try {
-        const siteStatus = await withTimeout(
+    // 并行发送所有请求，每个独立超时，各自处理错误不互相影响
+    const results = await Promise.all(
+      config.sites.map((site) =>
+        withTimeout(
           ApiService.getSiteStatus(site.name, site.url, site.desc, site.pkgname),
-          30000 // 30秒超时
-        );
-        siteStatuses.push(siteStatus);
-        console.log(`✅ ${site.name}: ${siteStatus.status}`);
-      } catch (error: any) {
-        console.log(`❌ ${site.name}: ${error.message}`);
-        siteStatuses.push({
+          10000
+        ).catch((error: Error): SiteStatus => ({
           name: site.name,
           url: site.url,
           desc: site.desc,
           type: "未知",
-          status: "error",
+          status: "error" as const,
           errorMessage: error.message,
-        });
-      }
-    }
+        }))
+      )
+    );
 
     const outputPath = join(process.cwd(), "public/data/sites.json");
+    const successCount = results.filter((s) => s.status === "success").length;
+    const errorCount = results.filter((s) => s.status === "error").length;
     const outputData = {
       metadata: {
         generatedAt: new Date().toISOString(),
-        totalSites: siteStatuses.length,
-        successCount: siteStatuses.filter((site) => site.status === "success").length,
-        errorCount: siteStatuses.filter((site) => site.status === "error").length
+        totalSites: results.length,
+        successCount,
+        errorCount,
       },
-      sites: siteStatuses
+      sites: results,
     };
-    
-    // Ensure the directory exists before writing the file
+
     mkdirSync(dirname(outputPath), { recursive: true });
     writeFileSync(outputPath, JSON.stringify(outputData, null, 2));
 
-    console.log(`\n📊 数据已保存到: ${outputPath}`);
-    console.log(`📈 成功处理 ${siteStatuses.length} 个网站的状态信息`);
-
-    const successCount = siteStatuses.filter((site) => site.status === "success").length;
-    const errorCount = siteStatuses.filter((site) => site.status === "error").length;
-
-    console.log(`✅ 成功: ${successCount} 个`);
-    console.log(`❌ 失败: ${errorCount} 个`);
+    console.log(`\n✅ 成功: ${successCount} 个`);
+    if (errorCount > 0) {
+      console.log(`❌ 失败: ${errorCount} 个`);
+    }
 
     console.log("\n📋 详细结果:");
-    siteStatuses.forEach((site) => {
-      const status = site.status === "success" ? "✅" : "❌";
-      console.log(`${status} ${site.name}: ${site.status}`); 
+    results.forEach((site, i) => {
+      const icon = site.status === "success" ? "✅" : "❌";
+      console.log(`${i + 1}. ${icon} ${site.name}: ${site.status}`);
       if (site.errorMessage) {
         console.log(`   错误: ${site.errorMessage}`);
       }
     });
 
-    console.log("\n🎉 数据获取完成!");
+    console.log(`\n📊 数据已保存到: ${outputPath}`);
+    console.log("🎉 数据获取完成!");
 
-    // 强制退出进程，避免延迟
     setTimeout(() => {
       process.exit(0);
     }, 100);
