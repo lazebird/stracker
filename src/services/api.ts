@@ -40,9 +40,10 @@ export class ApiService {
       }
       
       // 创建虚拟的release对象
+      // published_at 优先使用页面提取的更新时间（可能是release发布日期），回退到commit时间
       const latestRelease: GitHubRelease | null = webData.latest_version ? {
         tag_name: webData.latest_version,
-        published_at: webData.updated_at,
+        published_at: webData.updated_at || webData.pushed_at,
         name: webData.latest_version
       } : null
       
@@ -284,6 +285,36 @@ export class ApiService {
     }
   }
 
+  static extractDefaultBranch(html: string): string {
+    // 策略1: 从branch-select-menu或branch按钮中提取
+    const branchRegex1 = /data-default-branch="([^"]+)"/
+    const branchMatch1 = html.match(branchRegex1)
+    if (branchMatch1) {
+      return branchMatch1[1]
+    }
+    // 策略2: 从GitHub的JS初始化数据中提取 defaultBranch（最可靠，不会误配标签名）
+    const branchRegex2 = /"defaultBranch":"([^"]+)"/
+    const branchMatch2 = html.match(branchRegex2)
+    if (branchMatch2) {
+      return branchMatch2[1]
+    }
+    // 策略3: 从/tree/链接中推断默认分支名
+    const branchRegex3 = /\/tree\/([^\/"']+)/
+    const branchMatch3 = html.match(branchRegex3)
+    if (branchMatch3 && !branchMatch3[1].includes('/')) {
+      return branchMatch3[1]
+    }
+    // 策略4: 从分支选择器span中提取（最后备选，因为可能误配到标签元素的css-truncate-target）
+    const branchRegex4 = /<span[^>]*class="[^"]*css-truncate-target[^"]*"[^>]*>([^<]+)<\/span>/
+    const branchMatch4 = html.match(branchRegex4)
+    if (branchMatch4) {
+      return branchMatch4[1].trim()
+    }
+    // 回退: 检测常见分支名
+    if (html.includes('/tree/master')) return 'master'
+    return 'main'
+  }
+
   // 解析GitHub仓库页面
   static parseGitHubRepoPage(html: string): any {
     const getMetaContent = (name: string): string | null => {
@@ -293,12 +324,14 @@ export class ApiService {
     }
 
     const repoName = getMetaContent('octolytics-dimension-repo_nwo') || ''
+    const defaultBranch = this.extractDefaultBranch(html)
     
     // 查找最新提交时间 - 尝试多种策略
     let lastCommitTime: string | null = null
     let committedDateMatches: RegExpMatchArray[] = [] // 提前定义，供后续使用
     
     // 策略1: 从JSON数据中提取committedDate（适用于提交历史页面，最准确）
+    // 注意: committedDate 只出现在仓库页面的JSON-LD或commit列表数据中
     const committedDateRegex = /"committedDate":"([^"]+)"/g
     committedDateMatches = [...html.matchAll(committedDateRegex)]
     if (committedDateMatches.length > 0) {
@@ -308,6 +341,7 @@ export class ApiService {
     }
     
     // 策略2: 从relative-time标签中提取（备用）
+    // 注意: GitHub页面中第一个relative-time通常是最新提交的推送时间
     if (!lastCommitTime) {
       const commitTimeRegex = /relative-time[^>]*datetime="([^"]*)"/g
       const commitMatches = [...html.matchAll(commitTimeRegex)]
@@ -324,6 +358,16 @@ export class ApiService {
       if (metaTime) {
         lastCommitTime = new Date(parseInt(metaTime) * 1000).toISOString()
         console.log(`🎯 从meta标签找到提交时间: ${lastCommitTime}`)
+      }
+    }
+    
+    // 策略4: 从页面任何datetime属性中提取第一个日期作为最终回退
+    if (!lastCommitTime) {
+      const anyDateTimeRegex = /datetime="(\d{4}-\d{2}-\d{2}T[^"]*)"/g
+      const anyDateTimeMatches = [...html.matchAll(anyDateTimeRegex)]
+      if (anyDateTimeMatches.length > 0) {
+        lastCommitTime = anyDateTimeMatches[0][1]
+        console.log(`🎯 从任意datetime属性找到提交时间: ${lastCommitTime}`)
       }
     }
 
@@ -376,7 +420,7 @@ export class ApiService {
       pushed_at: lastCommitTime,
       updated_at: lastUpdateTime,
       latest_version: latestVersion,
-      default_branch: 'main'
+      default_branch: defaultBranch
     }
   }
 

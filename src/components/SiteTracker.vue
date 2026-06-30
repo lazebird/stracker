@@ -182,8 +182,8 @@ const getCodeUpdateTime = (site: any): string => {
   if (site.type === 'Docker Hub镜像') {
     return '-'
   }
-  // GitHub网站显示代码更新时间或版本更新时间
-  return site.lastCommitTime ? formatTime(site.lastCommitTime) : (site.lastUpdateTime ? formatTime(site.lastUpdateTime) : '-')
+  // 仅显示代码提交时间，不静默回退到 lastUpdateTime
+  return site.lastCommitTime ? formatTime(site.lastCommitTime) : '-'
 }
 
 const getPackageVersion = (site: any): string => {
@@ -407,11 +407,12 @@ const compareWithSnapshot = (currentSites: SiteStatus[], snapshotSites: SiteStat
       return { ...site, isNew: true }
     }
     
+    // 仅在两值均非空且不同时才算变化，避免因某次抓取失败(null)导致误标"更新"
     const hasChanges = 
-      site.latestVersion !== snapshot.latestVersion ||
-      site.packageVersion !== snapshot.packageVersion ||
-      site.lastCommitTime !== snapshot.lastCommitTime ||
-      site.packageUpdateTime !== snapshot.packageUpdateTime
+      (site.latestVersion != null && snapshot.latestVersion != null && site.latestVersion !== snapshot.latestVersion) ||
+      (site.packageVersion != null && snapshot.packageVersion != null && site.packageVersion !== snapshot.packageVersion) ||
+      (site.lastCommitTime != null && snapshot.lastCommitTime != null && site.lastCommitTime !== snapshot.lastCommitTime) ||
+      (site.packageUpdateTime != null && snapshot.packageUpdateTime != null && site.packageUpdateTime !== snapshot.packageUpdateTime)
     
     return { ...site, hasChanges }
   })
