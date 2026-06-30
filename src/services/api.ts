@@ -11,32 +11,41 @@ export class ApiService {
     latestRelease: { tag_name: string; published_at: string; name: string } | null;
     packages?: string[]
   }> {
-    // 优先使用网页抓取
-    try {
-      const webData = await scrapeRepoPage(repoPath)
+    // 优先网页抓取，失败后回退到API
+    return withFallback([
+      async () => {
+        const webData = await scrapeRepoPage(repoPath)
 
-      const latestRelease = webData.latest_version ? {
-        tag_name: webData.latest_version as string,
-        published_at: webData.updated_at || webData.pushed_at || '',
-        name: webData.latest_version as string
-      } : null
-
-      const result = {
-        repo: {
-          pushed_at: webData.pushed_at ?? undefined,
-          updated_at: webData.updated_at ?? undefined,
-          default_branch: webData.default_branch
-        },
-        latestRelease,
-        ...(webData.packages && webData.packages.length > 0 ? { packages: webData.packages } : {})
-      }
-
-      return result
-    } catch {
-      // 网页抓取失败，回退到API
-    }
-
-    return fetchRepoViaApi(repoPath)
+        return {
+          repo: {
+            pushed_at: webData.pushed_at ?? undefined,
+            updated_at: webData.updated_at ?? undefined,
+            default_branch: webData.default_branch
+          },
+          latestRelease: webData.latest_version ? {
+            tag_name: webData.latest_version,
+            published_at: webData.updated_at || webData.pushed_at || '',
+            name: webData.latest_version
+          } : null,
+          ...(webData.packages?.length ? { packages: webData.packages } : {})
+        }
+      },
+      async () => {
+        const apiResult = await fetchRepoViaApi(repoPath)
+        return {
+          repo: {
+            pushed_at: apiResult.repo.pushed_at,
+            updated_at: apiResult.repo.updated_at,
+            default_branch: apiResult.repo.default_branch ?? 'main',
+          },
+          latestRelease: apiResult.latestRelease ? {
+            tag_name: apiResult.latestRelease.tag_name,
+            published_at: apiResult.latestRelease.published_at,
+            name: apiResult.latestRelease.name,
+          } : null,
+        }
+      },
+    ])
   }
 
   static async getSiteStatus(name: string, url: string, desc?: string, pkgname?: string): Promise<SiteStatus> {

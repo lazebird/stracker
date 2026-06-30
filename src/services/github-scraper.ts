@@ -77,34 +77,20 @@ export async function extractPackagesFromRepoPage(html: string, repoPath: string
       }
     }
 
-    const packageLinkRegex = /\/users\/[^\/]+\/packages\/container\/package\/([^"\s\/]+)/g
-    const packageMatches = [...html.matchAll(packageLinkRegex)]
-    for (const match of packageMatches) {
-      const packageName = match[1]
-      if (packageName && !packages.includes(packageName)) {
-        packages.push(packageName)
-      }
-    }
-
+    // 从HTML多个位置尝试提取包名
     if (packages.length === 0) {
-      const packagesTabRegex = /href="\/([^\/]+\/[^\/]+)\/pkgs\/container\/([^"\s\/]+)"/g
-      const packagesTabMatches = [...html.matchAll(packagesTabRegex)]
-      for (const match of packagesTabMatches) {
-        const packageName = match[2]
-        if (packageName && !packages.includes(packageName)) {
-          packages.push(packageName)
+      const packagePatterns: Array<{ regex: RegExp; extract: (m: RegExpExecArray) => string }> = [
+        { regex: /\/users\/[^\/]+\/packages\/container\/package\/([^"\s\/]+)/g, extract: m => m[1] },
+        { regex: /href="\/([^\/]+\/[^\/]+)\/pkgs\/container\/([^"\s\/]+)"/g, extract: m => m[2] },
+        { regex: /pkgs\.container\.dev\/ghcr\.io\/[^\/]+\/([^"\s\/]+)/g, extract: m => m[1] },
+      ]
+      for (const { regex, extract } of packagePatterns) {
+        const matches = [...html.matchAll(regex)]
+        for (const m of matches) {
+          const name = extract(m)
+          if (name && !packages.includes(name)) packages.push(name)
         }
-      }
-    }
-
-    if (packages.length === 0) {
-      const containerLinkRegex = /pkgs\.container\.dev\/ghcr\.io\/[^\/]+\/([^"\s\/]+)/g
-      const containerMatches = [...html.matchAll(containerLinkRegex)]
-      for (const match of containerMatches) {
-        const packageName = match[1]
-        if (packageName && !packages.includes(packageName)) {
-          packages.push(packageName)
-        }
+        if (packages.length > 0) break
       }
     }
 
@@ -125,30 +111,26 @@ export async function extractPackagesFromRepoPage(html: string, repoPath: string
 }
 
 export async function scrapeGitHubPackagesWeb(repoPath: string): Promise<GitHubPackage[]> {
-  try {
-    const [owner, repo] = repoPath.split('/')
-    const possibleNames = generatePackageNames(repo)
+  const [owner, repo] = repoPath.split('/')
+  const possibleNames = generatePackageNames(repo)
 
-    for (const packageName of possibleNames) {
-      try {
-        const response = await axios.get(`https://github.com/${owner}/${repo}/pkgs/container/${packageName}`, {
-          headers: { ...BROWSER_HEADERS }
-        })
+  for (const packageName of possibleNames) {
+    try {
+      const response = await axios.get(`https://github.com/${owner}/${repo}/pkgs/container/${packageName}`, {
+        headers: { ...BROWSER_HEADERS }
+      })
 
-        if (response.status === 200) {
-          const html = response.data
-          const packageData = parseGitHubPackagePage(html, repoPath)
-          if (packageData) {
-            return [packageData]
-          }
+      if (response.status === 200) {
+        const html = response.data
+        const packageData = parseGitHubPackagePage(html, repoPath)
+        if (packageData) {
+          return [packageData]
         }
-      } catch {
-        // 继续尝试下一个名称
       }
+    } catch {
+      // 继续尝试下一个名称
     }
-
-    return []
-  } catch {
-    return []
   }
+
+  return []
 }
