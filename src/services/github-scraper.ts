@@ -10,6 +10,57 @@ const BROWSER_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
 
+const GITHUB_API = 'https://api.github.com'
+
+// ─── 提交信息获取（三种策略，按代价从低到高） ───
+
+/** 从 Atom feed 获取最新提交时间（轻量 XML） */
+export async function fetchCommitFromAtomFeed(repoPath: string, branch: string): Promise<string | null> {
+  const response = await axios.get(
+    `https://github.com/${repoPath}/commits/${branch}.atom`,
+    { headers: { 'Accept': 'application/atom+xml' } }
+  )
+  const match = response.data.match(/<updated>([^<]+)<\/updated>/)
+  return match?.[1] ?? null
+}
+
+/** 从 GitHub API 获取最新提交时间 */
+export async function fetchCommitFromApi(repoPath: string, branch: string): Promise<string | null> {
+  const headers: Record<string, string> = { 'Accept': 'application/vnd.github.v3+json' }
+  if (process.env.GITHUB_TOKEN) {
+    headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`
+  }
+  const response = await axios.get(
+    `${GITHUB_API}/repos/${repoPath}/commits?sha=${branch}&per_page=1`,
+    { headers }
+  )
+  return response.data?.[0]?.commit?.committer?.date ?? null
+}
+
+/** 获取最新提交时间：主页已有 → Atom feed → API（成功即停） */
+export async function fillCommitTime(repoData: ScrapedRepoData, repoPath: string): Promise<void> {
+  if (repoData.pushed_at) return
+
+  const branch = repoData.default_branch || 'main'
+  const strategies: Array<() => Promise<string | null>> = [
+    () => fetchCommitFromAtomFeed(repoPath, branch),
+    () => fetchCommitFromApi(repoPath, branch),
+  ]
+
+  for (const fetch of strategies) {
+    try {
+      const date = await fetch()
+      if (date) {
+        repoData.pushed_at = date
+        repoData.updated_at = date
+        return
+      }
+    } catch { /* 继续下一个策略 */ }
+  }
+}
+
+// ─── 仓库页面抓取 ───
+
 export async function scrapeRepoPage(repoPath: string): Promise<ScrapedRepoData> {
   const response = await axios.get(`https://github.com/${repoPath}`, {
     headers: { ...BROWSER_HEADERS }
@@ -23,28 +74,7 @@ export async function scrapeRepoPage(repoPath: string): Promise<ScrapedRepoData>
     repoData.packages = packages
   }
 
-  const defaultBranch = repoData.default_branch || 'main'
-
-  try {
-    const commitsResponse = await axios.get(`https://github.com/${repoPath}/commits/${defaultBranch}/`, {
-      headers: { ...BROWSER_HEADERS }
-    })
-
-    const commitsHtml = commitsResponse.data
-    const committedDateRegex = /"committedDate":"([^"]+)"/g
-    const committedDateMatches = [...commitsHtml.matchAll(committedDateRegex)]
-
-    if (committedDateMatches.length > 0) {
-      const latestCommitDate = committedDateMatches[0][1]
-      repoData.pushed_at = latestCommitDate
-      if (!repoData.updated_at) {
-        repoData.updated_at = latestCommitDate
-      }
-    }
-  } catch (e) {
-    // 提交页面失败 → 抛出让上游回退链尝试 API（API 有正确 pushed_at）
-    throw e
-  }
+  await fillCommitTime(repoData, repoPath)
 
   return repoData
 }

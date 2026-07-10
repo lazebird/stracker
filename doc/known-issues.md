@@ -90,3 +90,68 @@ GitHub 爬取失败或数据不完整时，`lastCommitTime` 为 `null`。SiteTra
 
 ### 状态
 已修复（2026-06-30）。
+
+---
+
+## 6. 提交页抓取失败导致全站 429 级联
+
+### 现象
+新版本所有站点获取数据时全部报 429 错误，旧版本（3 周前）运行正常。即使使用 `--serial` 模式也无法避免。
+
+### 根因
+1. `scrapeRepoPage` 中提交页抓取失败时 `throw e`（重新抛出），而旧代码是 catch 后继续使用主页面数据
+2. 抛出错误后 `withFallback` 跳到 API 策略，`resolvePackage` 中还有重复的 `fetchPackagesViaApi` 调用
+3. 每个站点的总请求数从 ~3 次膨胀到 ~8 次，10 站点串行 = 60-80 次请求，超出 GitHub 未认证 60/h 限额
+
+### 问题链
+1. 主页抓取成功，提交页 429 失败
+2. `throw e` → `withFallback` 跳到策略 2（API）
+3. API 也可能已被耗尽配额 → 整个站点失败
+4. 所有站点串联触发相同问题 → 全部 429
+
+### 修复
+1. 提交页失败时 catch 不再抛出，使用主页面已提取的数据继续（恢复旧代码行为）
+2. `resolvePackage` 合并两个重复的 `fetchPackagesViaApi` 策略为一个
+3. 提交信息获取改为多策略：主页 LatestCommit 区块 → Atom feed → API（按代价从低到高，成功即停）
+
+### 涉及文件
+- `src/services/github-scraper.ts` — `scrapeRepoPage()`, `fillCommitTime()`
+- `src/services/api.ts` — `resolvePackage()`
+
+### 状态
+已修复（2026-07-10）。
+
+---
+
+## 7. `parseGitHubRepoPage` 从 HTML 提取的提交时间不准确
+
+### 现象
+Decohererk/DecoTV 最新提交为 Jun 30, 2026，但 `lastCommitTime` 解析为 `2026-06-08`（旧数据）。
+
+### 根因
+`parseGitHubRepoPage` 用 `COMMITTED_DATE_REGEX` 匹配 HTML 中任意位置的 `"committedDate":"..."` 字段，匹配到的是页面其他位置的旧提交数据，而非顶部 LatestCommit 区块中的最新提交。
+
+### 修复
+新增 `extractLatestCommitTime` 函数，通过 `data-testid="latest-commit"` 精确定位页面顶部最新提交区块，提取其中的 `datetime` 属性。主页提取失败时由 `fillCommitTime` 通过 Atom feed/API 兜底。
+
+### 涉及文件
+- `src/services/github-parse.ts` — `parseGitHubRepoPage()`, `extractLatestCommitTime()`
+
+### 状态
+已修复（2026-07-10）。
+
+---
+
+## 8. `fillCommitTime` 在 `pushed_at` 已有时跳过
+
+### 现象
+`parseGitHubRepoPage` 从 HTML 提取到旧的提交时间后，`fillCommitTime` 检查 `if (repoData.pushed_at) return` 直接跳过，Atom feed/API 中的最新数据从未被执行。
+
+### 修复
+`parseGitHubRepoPage` 中 `extractLatestCommitTime` 已能准确提取最新提交时间，`fillCommitTime` 恢复为 `if (repoData.pushed_at) return` 逻辑，避免不必要的额外请求。若主页提取失败（`pushed_at` 为 null），则依次尝试 Atom feed → API。
+
+### 涉及文件
+- `src/services/github-scraper.ts` — `fillCommitTime()`
+
+### 状态
+已修复（2026-07-10）。

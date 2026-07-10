@@ -126,15 +126,9 @@ export class ApiService {
     }
     strategies.push(() =>
       fetchPackagesViaApi(path, repoPackages).then(ps => {
-        const pkg = ps.find(p => p.latest_version)
+        const pkg = ps.find(p => p.latest_version) || (ps.length > 0 ? ps[0] : null)
         if (pkg) return pkg
         throw new Error('no package from API')
-      })
-    )
-    strategies.push(() =>
-      fetchPackagesViaApi(path, repoPackages).then(ps => {
-        if (ps.length > 0 && ps[0].latest_version) return ps[0]
-        throw new Error('no valid version')
       })
     )
 

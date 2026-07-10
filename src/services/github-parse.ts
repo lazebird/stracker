@@ -1,10 +1,7 @@
 import type { GitHubPackage } from '@/types'
 
 // 模块级正则常量（避免函数内重复编译）
-const COMMITTED_DATE_REGEX = /"committedDate":"([^"]+)"/g
 const RELATIVE_TIME_REGEX = /relative-time[^>]*datetime="([^"]*)"/g
-const DATE_TIME_ISO_REGEX = /datetime="(\d{4}-\d{2}-\d{2}T[^"]*)"/g
-const DATE_TIME_ANY_REGEX = /datetime="(\d{4}-\d{2}-\d{2}[^"]*)"/g
 
 export interface ScrapedRepoData {
   name: string
@@ -48,37 +45,19 @@ function getMetaContent(html: string, name: string): string | null {
   return match ? match[1] : null
 }
 
+/** 从 LatestCommit 区块提取最新提交时间（准确，仅匹配页面顶部最新提交） */
+function extractLatestCommitTime(html: string): string | null {
+  // 定位 data-testid="latest-commit" 区块，截取合理长度避免误匹配
+  const startIdx = html.indexOf('data-testid="latest-commit"')
+  if (startIdx === -1) return null
+  const block = html.slice(startIdx, startIdx + 2000)
+  const match = block.match(/datetime="([^"]+)"/)
+  return match?.[1] ?? null
+}
+
 export function parseGitHubRepoPage(html: string): ScrapedRepoData {
   const repoName = getMetaContent(html, 'octolytics-dimension-repo_nwo') || ''
   const defaultBranch = extractDefaultBranch(html)
-
-  let lastCommitTime: string | null = null
-
-  const committedDateMatches = [...html.matchAll(COMMITTED_DATE_REGEX)]
-  if (committedDateMatches.length > 0) {
-    lastCommitTime = committedDateMatches[0][1]
-  }
-
-  if (!lastCommitTime) {
-    const commitMatches = [...html.matchAll(RELATIVE_TIME_REGEX)]
-    if (commitMatches.length > 0) {
-      lastCommitTime = commitMatches[0][1]
-    }
-  }
-
-  if (!lastCommitTime) {
-    const metaTime = getMetaContent(html, 'octolytics-dimension-repository_last_pushed')
-    if (metaTime) {
-      lastCommitTime = new Date(parseInt(metaTime) * 1000).toISOString()
-    }
-  }
-
-  if (!lastCommitTime) {
-    const anyDateTimeMatches = [...html.matchAll(DATE_TIME_ISO_REGEX)]
-    if (anyDateTimeMatches.length > 0) {
-      lastCommitTime = anyDateTimeMatches[0][1]
-    }
-  }
 
   let latestVersion: string | null = null
   const releaseRegex = /href="\/[^\/]+\/[^\/]+\/releases\/tag\/([^"]+)"/
@@ -87,32 +66,15 @@ export function parseGitHubRepoPage(html: string): ScrapedRepoData {
     latestVersion = releaseMatch[1]
   }
 
-  let lastUpdateTime: string | null = null
-
-  const commitMatches = [...html.matchAll(RELATIVE_TIME_REGEX)]
-  if (commitMatches.length > 1) {
-    lastUpdateTime = commitMatches[commitMatches.length - 1][1]
-  } else if (commitMatches.length === 1) {
-    lastUpdateTime = commitMatches[0][1]
-  }
-
-  if (!lastUpdateTime) {
-    const dateTimeMatches = [...html.matchAll(DATE_TIME_ANY_REGEX)]
-    if (dateTimeMatches.length > 0) {
-      lastUpdateTime = dateTimeMatches[0][1]
-    }
-  }
-
-  if (!lastUpdateTime && committedDateMatches.length > 0) {
-    lastUpdateTime = committedDateMatches[committedDateMatches.length - 1][1]
-  }
+  // 从 LatestCommit 区块提取最新提交时间（准确）
+  const lastCommitTime = extractLatestCommitTime(html)
 
   return {
     name: repoName.split('/')[1] || '',
     full_name: repoName,
     html_url: `https://github.com/${repoName}`,
     pushed_at: lastCommitTime,
-    updated_at: lastUpdateTime,
+    updated_at: lastCommitTime,
     latest_version: latestVersion,
     default_branch: defaultBranch
   }
