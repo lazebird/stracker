@@ -2,11 +2,10 @@ import axios from 'axios'
 import type { GitHubRepo, GitHubRelease, GitHubPackage } from '@/types'
 import { generatePackageNames } from '@/utils/package-names'
 import { withFallback } from '@/utils/retry'
-
-const GITHUB_API = 'https://api.github.com'
+import { GITHUB_API_BASE } from './github-constants'
 
 const githubApi = axios.create({
-  baseURL: GITHUB_API,
+  baseURL: GITHUB_API_BASE,
   headers: {
     'Accept': 'application/vnd.github.v3+json',
     ...(process.env.GITHUB_TOKEN && { 'Authorization': `token ${process.env.GITHUB_TOKEN}` })
@@ -14,7 +13,7 @@ const githubApi = axios.create({
 })
 
 const githubPublicApi = axios.create({
-  baseURL: GITHUB_API,
+  baseURL: GITHUB_API_BASE,
   headers: {
     'Accept': 'application/vnd.github.v3+json'
   }

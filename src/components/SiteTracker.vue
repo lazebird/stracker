@@ -1,10 +1,10 @@
 <template>
   <div class="site-tracker">
     <div class="actions">
-      <button @click="saveSnapshot(currentSites)" :disabled="loading" class="snapshot-btn">
+      <button @click="onSaveSnapshot" :disabled="loading" class="snapshot-btn">
         记录状态
       </button>
-      <button v-if="hasSnapshot" @click="showSnapshotModal" class="view-snapshot-btn">
+      <button v-if="hasSnapshot" @click="onShowSnapshotModal" class="view-snapshot-btn">
         查看记录
       </button>
       <span class="last-update" v-if="lastUpdateTime">
@@ -99,7 +99,8 @@ import {
   getPackageVersion as fmtPackageVersion,
   getPackageUpdateTime as fmtPackageUpdateTime
 } from '@/utils/format'
-import { useSnapshot, type SiteStatusWithSnapshot } from '@/composables/useSnapshot'
+import { useSnapshot } from '@/composables/useSnapshot'
+import { compareWithSnapshot, type SiteStatusWithSnapshot } from '@/utils/snapshot-compare'
 import { useSort } from '@/composables/useSort'
 import SnapshotModal from './SnapshotModal.vue'
 
@@ -118,12 +119,22 @@ const {
   showSnapshotModal,
   closeModal,
   startDrag,
-  compareWithSnapshot
 } = useSnapshot()
 
 const { sortField, sortOrder, toggleSort, sortedItems: sortedSites } = useSort(sites)
 
 const currentSites = ref<SiteStatus[]>([])
+
+const onSaveSnapshot = () => {
+  const ok = saveSnapshot(currentSites.value)
+  alert(ok ? '状态已保存到本地！' : '保存失败，请检查浏览器存储权限')
+}
+
+const onShowSnapshotModal = () => {
+  if (!showSnapshotModal()) {
+    alert('暂无历史记录')
+  }
+}
 
 const loadData = async () => {
   loading.value = true

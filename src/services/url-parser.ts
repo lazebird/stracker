@@ -1,7 +1,6 @@
 export interface ParsedUrl {
   type: 'github' | 'docker-hub'
   path: string
-  packagePath?: string
 }
 
 export function parseSiteUrl(url: string): ParsedUrl {
@@ -11,7 +10,6 @@ export function parseSiteUrl(url: string): ParsedUrl {
       return {
         type: 'github',
         path: urlParts[0],
-        packagePath: urlParts[1]
       }
     } else {
       return {

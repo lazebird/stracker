@@ -1,4 +1,5 @@
 import { ref, computed, type Ref } from 'vue'
+import { SITE_TYPE } from '@/services/github-constants'
 
 export type SortField = 'codeUpdateTime' | 'versionUpdateTime' | 'containerUpdateTime'
 
@@ -23,13 +24,13 @@ export function useSort<T extends {
   const getSortValue = (item: T): string | null => {
     switch (sortField.value) {
       case 'codeUpdateTime':
-        return item.type === 'Docker Hub镜像'
+        return item.type === SITE_TYPE.DOCKER_HUB
           ? null
           : (item.lastCommitTime || item.lastUpdateTime || null)
       case 'versionUpdateTime':
         return item.lastUpdateTime || null
       case 'containerUpdateTime':
-        return item.type === 'GitHub网站' ? (item.packageUpdateTime || null) : null
+        return item.type === SITE_TYPE.GITHUB ? (item.packageUpdateTime || null) : null
       default:
         return null
     }

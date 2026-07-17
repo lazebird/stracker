@@ -1,12 +1,12 @@
 import { writeFileSync, readFileSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import type { Site, SiteStatus } from "../src/types";
-import { ApiService } from "../src/services/api";
+import { getSiteStatus } from "../src/services/api";
 import { withTimeout } from "../src/utils/retry";
 
 function fetchSite(site: Site): Promise<SiteStatus> {
   return withTimeout(
-    ApiService.getSiteStatus(site.name, site.url, site.desc, site.pkgname),
+    getSiteStatus(site.name, site.url, site.desc, site.pkgname),
     10000
   ).catch((error: Error): SiteStatus => ({
     name: site.name,

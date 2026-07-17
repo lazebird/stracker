@@ -2,6 +2,7 @@ import axios from 'axios'
 import type { GitHubPackage } from '@/types'
 import { generatePackageNames } from '@/utils/package-names'
 import { parseGitHubRepoPage, parseGitHubPackagePage, type ScrapedRepoData } from './github-parse'
+import { GITHUB_API_BASE } from './github-constants'
 
 export type { ScrapedRepoData }
 
@@ -9,8 +10,6 @@ const BROWSER_HEADERS = {
   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 }
-
-const GITHUB_API = 'https://api.github.com'
 
 // ─── 提交信息获取（三种策略，按代价从低到高） ───
 
@@ -31,7 +30,7 @@ export async function fetchCommitFromApi(repoPath: string, branch: string): Prom
     headers['Authorization'] = `token ${process.env.GITHUB_TOKEN}`
   }
   const response = await axios.get(
-    `${GITHUB_API}/repos/${repoPath}/commits?sha=${branch}&per_page=1`,
+    `${GITHUB_API_BASE}/repos/${repoPath}/commits?sha=${branch}&per_page=1`,
     { headers }
   )
   return response.data?.[0]?.commit?.committer?.date ?? null
