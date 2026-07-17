@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-07-17T03:56:46.493Z",
+    "generatedAt": "2026-07-17T07:48:04.700Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,9 +11,9 @@
       "url": "https://github.com/SzeMeng76/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-07-16T14:50:35Z",
+      "lastCommitTime": "2026-07-17T04:13:30Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-07-16T07:54:12-07:00",
+      "packageUpdateTime": "2026-07-16T21:17:06-07:00",
       "status": "success"
     },
     {
@@ -23,7 +23,7 @@
       "type": "GitHub网站",
       "lastCommitTime": "2026-07-16T12:59:38Z",
       "latestVersion": "v1.5.0",
-      "lastUpdateTime": "2026-07-16T12:59:38Z",
+      "lastUpdateTime": "2026-06-08T13:26:44Z",
       "packageVersion": "v1.5.0",
       "packageUpdateTime": "2026-07-16T06:05:21-07:00",
       "status": "success"
@@ -35,7 +35,7 @@
       "type": "GitHub网站",
       "lastCommitTime": "2025-12-16T16:12:54Z",
       "latestVersion": "v1.2.0",
-      "lastUpdateTime": "2025-12-16T16:12:54Z",
+      "lastUpdateTime": "2025-10-09T17:50:42Z",
       "status": "success"
     },
     {
@@ -45,7 +45,7 @@
       "type": "GitHub网站",
       "lastCommitTime": "2025-09-25T03:08:27Z",
       "latestVersion": "8.9.5",
-      "lastUpdateTime": "2025-09-25T03:08:27Z",
+      "lastUpdateTime": "2025-09-20T17:24:55Z",
       "packageVersion": "latest",
       "packageUpdateTime": "2025-09-24T20:04:57-07:00",
       "status": "success"
@@ -86,7 +86,7 @@
       "type": "GitHub网站",
       "lastCommitTime": "2026-01-19T04:52:20Z",
       "latestVersion": "v3.8.2",
-      "lastUpdateTime": "2026-01-19T04:52:20Z",
+      "lastUpdateTime": "2026-01-04T03:53:21Z",
       "packageVersion": "latest",
       "packageUpdateTime": "2026-01-18T21:08:40-08:00",
       "status": "success"
@@ -98,7 +98,7 @@
       "type": "GitHub网站",
       "lastCommitTime": "2026-07-02T13:57:16Z",
       "latestVersion": "0.9.5.4",
-      "lastUpdateTime": "2026-07-02T13:57:16Z",
+      "lastUpdateTime": "2026-07-02T14:00:13Z",
       "status": "success"
     },
     {
@@ -108,7 +108,7 @@
       "type": "GitHub网站",
       "lastCommitTime": "2025-10-06T10:59:48Z",
       "latestVersion": "v2.3.4",
-      "lastUpdateTime": "2025-10-06T10:59:48Z",
+      "lastUpdateTime": "2025-10-06T10:34:21Z",
       "status": "success"
     }
   ]
