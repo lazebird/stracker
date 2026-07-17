@@ -9,8 +9,8 @@
     "fetch-data": "tsx scripts/fetch-data.ts"
   },
   "dependencies": {
-    "vue": "^3.4.0",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "vue": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
@@ -20,5 +20,5 @@
     "vite": "^5.0.0",
     "vue-tsc": "^2.0.0"
   },
-  "packageManager": "pnpm@8.15.0"
+  "packageManager": "pnpm@11.11.0"
 }

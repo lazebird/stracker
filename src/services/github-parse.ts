@@ -10,6 +10,7 @@ export interface ScrapedRepoData {
   pushed_at: string | null
   updated_at: string | null
   latest_version: string | null
+  latest_release_time: string | null
   default_branch: string
   packages?: string[]
 }
@@ -60,10 +61,17 @@ export function parseGitHubRepoPage(html: string): ScrapedRepoData {
   const defaultBranch = extractDefaultBranch(html)
 
   let latestVersion: string | null = null
+  let latestReleaseTime: string | null = null
   const releaseRegex = /href="\/[^\/]+\/[^\/]+\/releases\/tag\/([^"]+)"/
   const releaseMatch = html.match(releaseRegex)
   if (releaseMatch) {
     latestVersion = releaseMatch[1]
+    // 从 release 链接附近的 <relative-time> 提取实际发布时间
+    const afterRelease = html.slice(releaseMatch.index!, releaseMatch.index! + 2000)
+    const timeMatch = afterRelease.match(/<relative-time[^>]*datetime="([^"]*)"/)
+    if (timeMatch) {
+      latestReleaseTime = timeMatch[1]
+    }
   }
 
   // 从 LatestCommit 区块提取最新提交时间（准确）
@@ -76,6 +84,7 @@ export function parseGitHubRepoPage(html: string): ScrapedRepoData {
     pushed_at: lastCommitTime,
     updated_at: lastCommitTime,
     latest_version: latestVersion,
+    latest_release_time: latestReleaseTime,
     default_branch: defaultBranch
   }
 }

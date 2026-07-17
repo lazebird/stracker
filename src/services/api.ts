@@ -23,7 +23,7 @@ export class ApiService {
           },
           latestRelease: webData.latest_version ? {
             tag_name: webData.latest_version,
-            published_at: webData.updated_at || webData.pushed_at || '',
+            published_at: webData.latest_release_time || webData.updated_at || webData.pushed_at || '',
             name: webData.latest_version
           } : null,
           ...(webData.packages?.length ? { packages: webData.packages } : {})

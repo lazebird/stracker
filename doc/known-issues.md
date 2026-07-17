@@ -155,3 +155,25 @@ Decohererk/DecoTV 最新提交为 Jun 30, 2026，但 `lastCommitTime` 解析为 
 
 ### 状态
 已修复（2026-07-10）。
+
+---
+
+## 9. `latestRelease.published_at` 被设为提交时间而非 release 发布时间
+
+### 现象
+Decohererk/DecoTV 的 release v1.5.0 实际发布时间为 2026-06-08，但界面显示为 2026-07-16（最新提交时间）。
+
+### 根因
+`parseGitHubRepoPage` 从 HTML 提取了 release 的 tag name，但没有提取其发布时间。`api.ts` 构造 `latestRelease` 时用 `webData.updated_at`（即提交时间）作为 `published_at`。网页抓取策略成功后，API 策略（能正确返回 `published_at`）被 `withFallback` 跳过。
+
+### 修复
+1. `ScrapedRepoData` 新增 `latest_release_time` 字段
+2. `parseGitHubRepoPage` 从 release 链接附近的 `<relative-time datetime="...">` 提取实际发布时间（搜索窗口 2000 字符）
+3. `api.ts` 优先使用 `latest_release_time`，回退到 `updated_at`/`pushed_at`
+
+### 涉及文件
+- `src/services/github-parse.ts` — `parseGitHubRepoPage()`
+- `src/services/api.ts` — `getGitHubRepoInfo()`
+
+### 状态
+已修复（2026-07-17）。
