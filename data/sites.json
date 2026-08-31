@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-08-30T06:09:24.642Z",
+    "generatedAt": "2026-08-31T06:34:02.784Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,9 +11,9 @@
       "url": "https://github.com/SzeMeng76/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-08-27T05:23:00Z",
+      "lastCommitTime": "2026-08-30T07:40:48Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-08-26T22:46:23-07:00",
+      "packageUpdateTime": "2026-08-30T02:37:13-07:00",
       "status": "success"
     },
     {
