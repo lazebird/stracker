@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-10-19T05:36:53.811Z",
+    "generatedAt": "2026-10-20T05:37:45.163Z",
     "totalSites": 10,
     "successCount": 10,
     "errorCount": 0
@@ -11,9 +11,9 @@
       "url": "https://github.com/SzeMeng76/LunaTV",
       "desc": "LunaTV Enhanced Edition",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-10-17T09:02:14Z",
+      "lastCommitTime": "2026-10-19T11:43:15Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-10-17T02:05:51-07:00",
+      "packageUpdateTime": "2026-10-19T04:47:13-07:00",
       "status": "success"
     },
     {
@@ -76,9 +76,9 @@
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-10-13T05:43:56Z",
-      "packageVersion": "v4.3.0",
-      "packageUpdateTime": "2026-10-12T22:55:49-07:00",
+      "lastCommitTime": "2026-10-19T10:23:05Z",
+      "packageVersion": "latest",
+      "packageUpdateTime": "2026-10-19T03:40:43-07:00",
       "status": "success"
     },
     {
