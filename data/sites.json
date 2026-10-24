@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-10-23T05:40:35.329Z",
+    "generatedAt": "2026-10-24T05:18:00.426Z",
     "totalSites": 10,
     "successCount": 9,
     "errorCount": 1
@@ -76,9 +76,9 @@
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
       "type": "GitHub网站",
-      "lastCommitTime": "2026-10-23T05:04:51Z",
+      "lastCommitTime": "2026-10-23T14:10:24Z",
       "packageVersion": "latest",
-      "packageUpdateTime": "2026-10-22T22:22:43-07:00",
+      "packageUpdateTime": "2026-10-23T07:35:02-07:00",
       "status": "success"
     },
     {
