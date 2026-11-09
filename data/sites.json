@@ -1,48 +1,42 @@
 {
   "metadata": {
-    "generatedAt": "2026-11-08T06:53:10.577Z",
+    "generatedAt": "2026-11-09T07:34:28.718Z",
     "totalSites": 10,
-    "successCount": 9,
-    "errorCount": 1
+    "successCount": 1,
+    "errorCount": 9
   },
   "sites": [
     {
       "name": "SzeMeng76/LunaTV",
       "url": "https://github.com/SzeMeng76/LunaTV",
       "desc": "LunaTV Enhanced Edition",
-      "type": "GitHub网站",
-      "lastCommitTime": "2026-11-01T13:04:50Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2026-11-01T05:08:01-08:00",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "Decohererk/DecoTV",
       "url": "https://github.com/Decohererk/DecoTV",
       "desc": "原KatelyaTV",
-      "type": "GitHub网站",
-      "lastCommitTime": "2026-07-16T12:59:38Z",
-      "packageVersion": "v1.5.0",
-      "packageUpdateTime": "2026-07-16T06:05:21-07:00",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "hsq1820/DanmuTV",
       "url": "https://github.com/hsq1820/DanmuTV",
       "desc": "MoonTV二开，electron APP",
-      "type": "GitHub网站",
-      "lastCommitTime": "2025-12-16T16:12:54Z",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "djteang/OrangeTV",
       "url": "https://github.com/djteang/OrangeTV",
       "desc": "源自MoonTV，issue可用",
-      "type": "GitHub网站",
-      "lastCommitTime": "2025-09-25T03:08:27Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2025-09-24T20:04:57-07:00",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "lampon/omnibox",
@@ -57,37 +51,33 @@
       "name": "Ouonnki/OuonnkiTV",
       "url": "https://github.com/Ouonnki/OuonnkiTV",
       "desc": "基于LibreTV修改",
-      "type": "GitHub网站",
-      "lastCommitTime": "2026-08-14T02:49:45Z",
-      "packageVersion": "main-c75b08d",
-      "packageUpdateTime": "2026-08-16T20:03:14-07:00",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "fxzer/nova-tv",
       "url": "https://github.com/fxzer/nova-tv",
       "desc": "基于 MoonTV 修改",
-      "type": "GitHub网站",
-      "lastCommitTime": "2025-12-18T07:19:35Z",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "Stardm0/MoonTV",
       "url": "https://github.com/Stardm0/MoonTV",
       "desc": "基于MoonTV 2.0.1开始自行维护更新",
-      "type": "GitHub网站",
-      "lastCommitTime": "2026-11-05T11:14:22Z",
-      "packageVersion": "latest",
-      "packageUpdateTime": "2026-11-05T03:26:28-08:00",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "programClown/LunaTV",
       "url": "https://github.com/programClown/LunaTV",
       "desc": "win app版",
-      "type": "GitHub网站",
-      "lastCommitTime": "2026-07-02T13:57:16Z",
-      "status": "success"
+      "type": "未知",
+      "status": "error",
+      "errorMessage": "请求超时 (10000ms)"
     },
     {
       "name": "sdlw7757/KatelyaTV-Portable-Edition",
@@ -95,7 +85,7 @@
       "desc": "基于本地运行",
       "type": "未知",
       "status": "error",
-      "errorMessage": "Request failed with status code 404"
+      "errorMessage": "请求超时 (10000ms)"
     }
   ]
 }
