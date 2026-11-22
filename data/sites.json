@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-11-21T07:55:46.011Z",
+    "generatedAt": "2026-11-22T07:41:24.035Z",
     "totalSites": 10,
     "successCount": 9,
     "errorCount": 1
@@ -95,7 +95,7 @@
       "desc": "基于本地运行",
       "type": "未知",
       "status": "error",
-      "errorMessage": "Request failed with status code 403"
+      "errorMessage": "Request failed with status code 404"
     }
   ]
 }
